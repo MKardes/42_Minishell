@@ -14,13 +14,12 @@ void	put_envs(void)
 
 void	partition(int p, int i, int j, int c)
 {
-	char	**pipe;
 	char	*s;
 	int		a;
 	int		z;
 	int		tmp;
-	j--;
-	pipe = (char **)malloc(sizeof(char *) * c);
+	
+	shell_g.all[p] = (char **)malloc(sizeof(char *) * c);
 	s = shell_g.line;
 	a = 0;
 	tmp = i;
@@ -40,22 +39,12 @@ void	partition(int p, int i, int j, int c)
 			i++;
 		}
 		else
-		{
 			while (i - tmp < j && !((s[i] >= 9 && s[i] <= 13) || s[i] == 32))
 				i++;
-			printf("(%c)\n",s[i]);
-		}
 		z = i - z;
-		if (s[i + 1] == '|')
-		{
-			printf("(%d/%c)%d--(%d/%c)%d, ",s[z], s[z], z,s[i], s[i], i);
-			pipe[a] = ft_substr(s, i - z, z + 1);
-		}
-		else
-            pipe[a] = ft_substr(s, i - z, z);
+        shell_g.all[p][a] = ft_substr(s, i - z, z);
 		a++;
 	}
-	shell_g.all[p] = pipe;
 }
 
 //This function allocates to the string parts and fill them into the correct parts.
@@ -151,7 +140,6 @@ void	parsing(char *s)
 	}
 	shell_g.all = (char ***)malloc(sizeof(char **) * shell_g.p_cnt + 1);
 	shell_g.in_pipe = (int *)malloc(sizeof(int) * shell_g.p_cnt + 1);
-	i = 0;
 	split_pipe(s);
 	int	a = 0, b, c;
 	printf("p_cnt: %d\n",shell_g.p_cnt);
@@ -176,14 +164,15 @@ void	myfree(void)
 
 	free(shell_g.line);
 	i = 0;
-	while (i< shell_g.p_cnt)
+	while (i <= shell_g.p_cnt)
 	{
 		j = 0;
-		while (j < shell_g.in_pipe[i])
+		while (j <= shell_g.in_pipe[i])
 		{
 			free(shell_g.all[i][j]);
 			j++;
 		}
+		free(shell_g.all[i]);
 		i++;
 	}
 	free(shell_g.in_pipe);
@@ -217,8 +206,8 @@ int	main(int ac, char **av, char **env)
 		}
 		add_history(shell_g.line);
 		parsing(shell_g.line);
+		myfree();
 		shell_g.p_cnt = 0;
-	//	myfree();
 	}
 	return (0);
 }
