@@ -1,41 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/16 00:21:43 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/16 17:08:27 by mkardes          ###   ########.fr       */
+/*   Created: 2022/09/16 10:56:25 by mkardes           #+#    #+#             */
+/*   Updated: 2022/09/16 10:56:27 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **env)
+void	myfree(void)
 {
-	char	*name;
-	char	*s;
+	int	i;
+	int	j;
 
-	if (ac != 1)
-		return (0);
-	shell_g.env = env;
-	shell_g.p_cnt = 0;
-	shell_g.prompt = ft_strdup("<\033[0;92m Shell\033[0;39m > ");
-	signal(SIGINT, sig_int);
-	while (1)
+	free(shell_g.line);
+	i = 0;
+	while (i <= shell_g.p_cnt)
 	{
-		shell_g.p = 0;
-		shell_g.line = readline(shell_g.prompt);
-		if (!shell_g.line)
+		j = 0;
+		while (j < shell_g.in_pipe[i])
 		{
-			printf("exit");
-			exit(0);
+			free(shell_g.all[i][j]);
+			j++;
 		}
-		add_history(shell_g.line);
-		parsing(shell_g.line);
-		start();
-		myfree();
+		free(shell_g.all[i]);
+		i++;
 	}
-	return (0);
+	free(shell_g.in_pipe);
+	free(shell_g.all);
+	shell_g.p_cnt = 0;
 }
