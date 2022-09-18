@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:04:25 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/16 19:31:28 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/09/18 10:18:19 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,27 @@ int	denme(void)
 void	start(void)
 {
 	if (ft_strstr(shell_g.all[shell_g.p][0], "env"))
-		printf("env");
-	denme();
+		env();
+	else if (ft_strstr(shell_g.all[shell_g.p][0], "export"))
+        my_export();
+	else if (ft_strstr(shell_g.all[shell_g.p][0], "echo"))
+		echo();
+	else if (ft_strstr(shell_g.all[shell_g.p][0], "cd"))
+		cd();
+	else if (ft_strstr(shell_g.all[shell_g.p][0], "pwd"))
+        pwd();
+	else if (ft_strstr(shell_g.all[shell_g.p][0], "exit"))
+		my_exit();
+	//execve
+	//lstat
+	//stat
+	
+	//cd
+	//chdir				chdir		(const char *path)
+	//DIR				*opendir	(const char *name)
+	//struct dirent		*readdir	(DIR *drip)
+	//int				closedir	(DIR *drip)
+	//int				unlink		(const char *path)
+
+	//denme();
 }

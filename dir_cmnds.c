@@ -1,31 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strstr.c                                        :+:      :+:    :+:   */
+/*   dir_cmnds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/16 19:22:01 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/17 23:47:13 by mkardes          ###   ########.fr       */
+/*   Created: 2022/09/18 09:45:09 by mkardes           #+#    #+#             */
+/*   Updated: 2022/09/18 10:07:04 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_strstr(const char *s1, const char *s2)
+void	cd(void)
 {
-	int	i;
+	printf("cd\n");
+}
+
+void	pwd(void)
+{
+	int		i;
+	char	*s;
+	char	*a;
 
 	i = 0;
-	if (!s1 || !s2)
-		return (0);
-	while (s1[i] && s2[i])
+	if (!operator_chc())
+		return ;
+	while (shell_g.env[i])
 	{
-		if (s1[i] != s2[i])
-			return (0);
+		s = ft_fsplit(shell_g.env[i], '=');
+		if (ft_strstr(s, "PWD"))
+		{
+			a = ft_strchr(shell_g.env[i], '=');
+			printf("%s\n", ++a);
+			free(s);
+			break ;
+		}
+		free(s);
 		i++;
 	}
-	if (s1[i] == s2[i])
-		return (1);
-	return (0);
 }

@@ -5,13 +5,16 @@ INCLUDES = readline/include
 RL = -lreadline
 GFLAGS = -Wall -Werror -Wextra
 
-all: $(MLIB) $(NAME)
-	@echo "Minishell"
+all: $(NAME)
 
-$(NAME):
-	@gcc *.c $(MLIB) -L $(LIBS) -I $(INCLUDES) $(RL) -o $(NAME) && ./$(NAME)
+$(NAME): $(MLIB) $(LIBS) *.c
+	@gcc *.c $(MLIB) -L $(LIBS) -I $(INCLUDES) $(RL) -o $(NAME)
+	@echo "Compiling Done"
 
-$(MLIB):
+run: $(NAME)
+	./$(NAME)
+ 
+$(MLIB): libft
 	@make -C libft
 
 clean:

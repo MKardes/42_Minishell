@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:25:40 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/16 15:09:57 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/09/18 10:18:42 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,13 @@
 # include <string.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <dirent.h>
 # include "libft/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 
 typedef struct m_shell {
+	void	*funcs;
 	char	**env;
 	char	***all;
 	char	*line;
@@ -45,7 +47,14 @@ void	pass(char *s, int *i, char c);
 void	parsing(char *s);
 void	myfree(void);
 void	sig_int(int sig);
-void	env(char *s);
+void	env(void);
+void	my_export(void);
+void	echo(void);
+void	cd(void);
+void	pwd(void);
 void	start(void);
+void	my_exit(void);
+void	ft_error(char *command, char *msg);
+int		operator_chc(void);
 
 #endif

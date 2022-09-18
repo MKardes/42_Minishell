@@ -6,7 +6,7 @@
 #    By: mkardes <mkardes@student.42kocaeli.co      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/03 19:10:24 by mkardes           #+#    #+#              #
-#    Updated: 2022/09/16 19:28:41 by mkardes          ###   ########.fr        #
+#    Updated: 2022/09/17 21:12:05 by mkardes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,8 @@ SRCS = ft_isalpha.c \
 	   ft_putstr_fd.c \
 	   ft_putendl_fd.c \
 	   ft_putnbr_fd.c \
-	   ft_strstr.c
+	   ft_strstr.c ft_fsplit.c ft_strddup.c#special fo -> Minishell
+
 
 BONUS = ft_lstnew.c \
 		ft_lstadd_front.c \
