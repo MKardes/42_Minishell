@@ -6,11 +6,27 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:21:43 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/18 10:01:34 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/09/20 11:49:24 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	minishell_put(void)
+{
+	printf("\033[0;93m\t__    __  ___  __    ___  ___      _____  "\
+			"___   ___  ________  ________  ___\n");
+	printf("\t| \\  / |  | |  | \\   | |  | |     / ___|  | |   | "\
+			"|  | _____|  | _____|  | |\n");
+	printf("\t|  \\/  |  | |  | |\\  | |  | |     \\ \\     | |___"\
+			"| |  | |___    | |___    | |\n");
+	printf("\t| |\\/| |  | |  | | \\ | |  | |       \\ \\   | ____"\
+			"_ |  | ___|    | ___|    | |\n");
+	printf("\t| |  | |  | |  | |  \\| |  | |     ___/ /  | |   | |"\
+		  	"  | |_____  | |_____  | |______\n");
+	printf("\t|_|  |_|  |_|  |_|   \\_|  |_|    |____/   |_|   |_|"\
+		  	"  |______|  |______|  |_______|\n\033[0;39m");
+}
 
 int	main(int ac, char **av, char **env)
 {
@@ -24,6 +40,7 @@ int	main(int ac, char **av, char **env)
 	shell_g.p_cnt = 0;
 	shell_g.prompt = ft_strdup("<\033[0;92m Shell\033[0;39m > ");
 	signal(SIGINT, sig_int);
+	minishell_put();
 	while (1)
 	{
 		shell_g.p = 0;
