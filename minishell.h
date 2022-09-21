@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:25:40 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/18 10:18:42 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/09/22 02:01:59 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	check_fill(char *s, int i, int j, int p);
 void	quotes_state(int *a, int i, int *j, char c);
 void	split_pipe(char *s);
 void	pass(char *s, int *i, char c);
-void	parsing(char *s);
+void	parsing(void);
 void	myfree(void);
 void	sig_int(int sig);
 void	env(void);
@@ -54,6 +54,7 @@ void	cd(void);
 void	pwd(void);
 void	start(void);
 void	my_exit(void);
+void	my_unset(void);
 void	ft_error(char *command, char *msg);
 int		operator_chc(void);
 

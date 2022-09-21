@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 10:56:25 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/18 10:20:14 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/09/21 22:50:39 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	operator_chc(void)
 	{
 		if (shell_g.all[shell_g.p][i][0] == '-')
 		{
-			ft_error("export", "Undifened option");
+			ft_error(shell_g.all[shell_g.p][0], "Undifened option");
 			return (0);
 		}
 		i++;
@@ -53,7 +53,10 @@ void	myfree(void)
 
 void	my_exit(void)
 {
-	//if (ft_atoi())
+	if (!operator_chc())
+		return ;
+	if (shell_g.all[shell_g.p][1])
+		exit(ft_atoi(shell_g.all[shell_g.p][1]) % 256);
 	exit(0);
 }
 

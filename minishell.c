@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:21:43 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/20 11:49:24 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/09/22 00:38:19 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	main(int ac, char **av, char **env)
 		if (!shell_g.line[0])
             continue ;
 		add_history(shell_g.line);
-		parsing(shell_g.line);
+		parsing();
 		start();
 		myfree();
 	}

@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:04:25 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/18 10:18:19 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/09/22 02:01:34 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	start(void)
         pwd();
 	else if (ft_strstr(shell_g.all[shell_g.p][0], "exit"))
 		my_exit();
+	else if (ft_strstr(shell_g.all[shell_g.p][0], "unset"))
+		my_unset();
 	//execve
 	//lstat
 	//stat

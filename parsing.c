@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:21:43 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/18 05:30:02 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/09/22 00:17:26 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,10 +136,12 @@ void	pass(char *s, int *i, char c)
 	(*i)++;
 }
 
-void	parsing(char *s)
+void	parsing(void)
 {
-	int	i;
+	char	*s;
+	int		i;
 
+	s = shell_g.line;
 	i = 0;
 	while (s[i])
 	{
