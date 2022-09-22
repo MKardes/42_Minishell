@@ -8,7 +8,7 @@ GFLAGS = -Wall -Werror -Wextra
 all: $(NAME)
 
 $(NAME): $(MLIB) $(LIBS) *.c
-	@gcc *.c $(MLIB) -L $(LIBS) -I $(INCLUDES) $(RL) -o $(NAME) -g
+	@gcc *.c $(MLIB) -L $(LIBS) -I $(INCLUDES) $(RL) -o $(NAME)
 	@echo "Compiling Done"
 
 run: $(NAME)

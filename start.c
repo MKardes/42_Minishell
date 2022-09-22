@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:04:25 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/22 02:01:34 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/09/22 18:05:25 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	denme(void)
 	return (0);
 }
 
-void	start(void)
+void	start1(void)
 {
 	if (ft_strstr(shell_g.all[shell_g.p][0], "env"))
 		env();
@@ -60,4 +60,30 @@ void	start(void)
 	//int				unlink		(const char *path)
 
 	//denme();
+}
+
+void	info_(void)
+{
+	read(shell_g.mpipe[0], shell_g.info, 10000);
+}
+
+void	start(void)
+{
+	int	pid;
+
+	if (shell_g.all[shell_g.p + 1] != NULL)
+    {
+        pid = fork();
+        if (pid == 0)
+        {
+            dup2(shell_g.mpipe[1], 1);
+			start1();
+			exit(0);
+        }
+		wait(NULL);
+		info_();
+		printf("(%s)\n", shell_g.info);
+    }
+	else
+		start1();
 }

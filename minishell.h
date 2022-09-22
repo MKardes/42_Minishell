@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:25:40 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/22 02:01:59 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/09/22 17:56:09 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ typedef struct m_shell {
 	int		*in_pipe;	//The count of words in every pipes: in_pipe[0] = the word count in the first pipe
 	int		type;
 	int		p;
+	int		*mpipe;		//mpipe[0] read   --   mpipe[1] write
+	char	*info;
 }	t_shell;
 
 t_shell	shell_g;

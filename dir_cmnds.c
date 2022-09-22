@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 09:45:09 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/22 01:23:40 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/09/22 17:09:18 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	pwd(void)
 	int		i;
 	char	*s;
 	char	*a;
+	int		pid;
 
 	i = 0;
 	if (!operator_chc())

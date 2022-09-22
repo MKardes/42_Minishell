@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:21:43 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/22 15:51:31 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/09/22 18:00:08 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,12 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	if (ac != 1)
 		return (0);
+	shell_g.mpipe = (int *)malloc(sizeof(int) * 2);
 	shell_g.env = ft_strddup(env);
+	shell_g.info = malloc(10000);
 	shell_g.p_cnt = 0;
 	shell_g.prompt = ft_strdup("<\033[0;92m Shell\033[0;39m > ");
+	pipe(shell_g.mpipe);
 	signal(SIGINT, sig_int);
 	minishell_put();
 	while (1)
@@ -59,9 +62,9 @@ int	main(int ac, char **av, char **env)
             continue ;
 		add_history(shell_g.line);
 		parsing();
-		sign_chc();
+		//sign_chc();
 		start();
-		pipe_sign_chc();
+		//pipe_sign_chc();
 		myfree();
 	}
 	return (0);
