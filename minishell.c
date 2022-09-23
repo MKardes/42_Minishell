@@ -6,11 +6,13 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:21:43 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/22 18:00:08 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/09/22 20:36:37 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_shell	shell_g;
 
 void	minishell_put(void)
 {
