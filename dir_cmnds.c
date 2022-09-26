@@ -6,47 +6,80 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 09:45:09 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/22 17:09:18 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/09/23 14:39:15 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ch_wd(char *dest)
+void	ch_wd(char *old, char *dest)
 {
-	char	*var;
 	int		i;
+	int		j;
 	char	*wd;
+	char	*tmp;
 
-	i = 0;
 	wd = getcwd(NULL, 1024);
-	while (shell_g.env[i])
+	i = env_finder("PWD");
+	j = env_finder("OLDPWD");
+	if (j == -1)
 	{
-		var = ft_substr(shell_g.env[i], 0, 3);
-		if (ft_strstr(var, "PWD"))
-		{
-			free(shell_g.env[i]);
-			free(var);
-			shell_g.env[i] = ft_strjoin("PWD=", wd);
-			break ;
-		}
-		free(var);
-		i++;
+		tmp = ft_strjoin("OLDPWD=", old);
+		env_add(tmp);
+		free(tmp);
 	}
+	else
+	{
+		free(shell_g.env[j]);
+		shell_g.env[j] = ft_strjoin("OLDPWD=", old);
+	}
+	free(shell_g.env[i]);
+	shell_g.env[i] = ft_strjoin("PWD=", wd);
+	free(old);
 	free(wd);
+}
+
+char	*dir_sign(char *str, char c)
+{
+	char	*dest;
+	char	*tmp;
+
+	if (c == '-')
+	{
+		dest = ft_strdup(ft_strchr(shell_g.env[env_finder("OLDPWD")], '=') + 1);
+		return (dest);
+	}
+	else
+	{
+		ft_strchr(shell_g.env[env_finder("HOME")], '=');
+		dest = ft_strjoin((ft_strchr(shell_g.env[env_finder("HOME")], '=') + 1), str);
+		return (dest);
+	}
 }
 
 void	cd(void)
 {
-	char			*dest;
+	char	*dest;
+	char	*old;
 
-	if (!operator_chc())
+	if ((shell_g.all[shell_g.p][1][0] == '-' && !shell_g.all[shell_g.p][1][1])
+			|| shell_g.all[shell_g.p][1][0] == '~')
+		dest = dir_sign((shell_g.all[shell_g.p][1] + 1), shell_g.all[shell_g.p][1][0]);
+	else if (!operator_chc())
 		return ;
-	dest = ft_strdup(shell_g.all[shell_g.p][1]);
-	if (chdir(dest) == -1)
-		printf("cd: directory couldn't be changed\n");
 	else
-		ch_wd(dest);
+		dest = ft_strdup(shell_g.all[shell_g.p][1]);
+	old = getcwd(NULL, 1024);
+	if (chdir(dest) == -1)
+	{
+		write(1, "cd: ", 4);
+		perror("");
+		free(old);
+		free(dest);
+		return ;
+	}
+	else
+		ch_wd(old, dest);
 	free(dest);
 }
 

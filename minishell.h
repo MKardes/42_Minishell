@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:25:40 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/22 20:37:13 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/09/23 16:01:35 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct m_shell {
 	char	*info;
 }	t_shell;
 
-extern t_shell	shell_g;
+t_shell	shell_g;
 
 void	printer(void);
 void	partition(int p, int i, int j, int c);
@@ -59,5 +59,7 @@ void	my_exit(void);
 void	my_unset(void);
 void	ft_error(char *command, char *msg);
 int		operator_chc(void);
+int		env_finder(char *str);
+void	env_add(char *str);
 
 #endif

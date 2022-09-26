@@ -1,5 +1,4 @@
 NAME = minishell
-NAME_W = minishell.exe
 MLIB = libft/libft.a
 LIBS = readline/lib
 INCLUDES = readline/include
@@ -8,14 +7,8 @@ GFLAGS = -Wall -Werror -Wextra
 
 all: $(NAME)
 
-$(NAME): $(MLIB) $(LIBS) *.c M_SRC/*.c
-	@gcc *.c M_SRC/*.c $(MLIB) -L $(LIBS) -I $(INCLUDES) $(RL) -o $(NAME)
-	@echo "Compiling Done"
-
-win: $(NAME_W)
-
-$(NAME_W): $(MLIB) $(LIBS) *.c W_SRC/*.c
-	@gcc *.c W_SRC/*.c $(MLIB) $(RL) -o $(NAME_W)
+$(NAME): $(MLIB) $(LIBS) *.c
+	@gcc *.c $(MLIB) -L $(LIBS) -I $(INCLUDES) $(RL) -o $(NAME)
 	@echo "Compiling Done"
 
 run: $(NAME)

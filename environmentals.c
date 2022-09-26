@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:58:40 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/18 10:05:57 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/09/23 14:45:33 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,11 +88,19 @@ void	env_add(char *str)
 void	my_export(void)
 {
 	int	i;
-	int	idx;
 
+	i = 1;
 	if (!operator_chc())
 		return ;
-	i = 1;
+	if (!shell_g.all[shell_g.p][1])
+	{
+		i = 0;
+		while (shell_g.env[i])
+		{
+			printf("declare -x %s\n",shell_g.env[i]);
+			i++;
+		}
+	}
 	while (i < shell_g.in_pipe[shell_g.p])
 	{
 		int h = check_if_exist(shell_g.env, shell_g.all[shell_g.p][i]);

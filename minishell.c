@@ -6,13 +6,11 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:21:43 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/22 20:36:37 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/09/25 17:42:23 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_shell	shell_g;
 
 void	minishell_put(void)
 {
@@ -68,6 +66,7 @@ int	main(int ac, char **av, char **env)
 		start();
 		//pipe_sign_chc();
 		myfree();
+		printf("Eerr\n");
 	}
 	return (0);
 }
