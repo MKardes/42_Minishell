@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:04:25 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/25 17:57:49 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/09/28 12:15:28 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	start(void)
 {
 	int	pid;
 
-	printf("[%d][%d]\n", shell_g.all[shell_g.p] == 0, shell_g.all[shell_g.p + 1] == 0);
 	if (shell_g.all[shell_g.p + 1] != NULL && shell_g.all[shell_g.p][0][0] == 'p')
     {
         pid = fork();

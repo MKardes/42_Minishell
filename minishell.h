@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:25:40 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/23 16:01:35 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/09/28 17:51:53 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct m_shell {
 	char	***all;
 	char	*line;
 	char	*prompt;
-	int		p_cnt;		//Pipe counts
+	int		p_cnt;		//Pipe counts   { echo "Mini" Shell | tr '\n' 'E' | cat > text.txt }  p_cnt = 3 
 	int		*in_pipe;	//The count of words in every pipes: in_pipe[0] = the word count in the first pipe
 	int		type;
 	int		p;
@@ -61,5 +61,6 @@ void	ft_error(char *command, char *msg);
 int		operator_chc(void);
 int		env_finder(char *str);
 void	env_add(char *str);
+void	var_chc(void);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:21:43 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/22 00:17:26 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/09/28 14:49:40 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,4 +154,5 @@ void	parsing(void)
 	shell_g.all = (char ***)malloc(sizeof(char **) * (shell_g.p_cnt + 1));
 	shell_g.in_pipe = (int *)malloc(sizeof(int) * (shell_g.p_cnt + 1));
 	split_pipe(s);
+	var_chc();
 }
