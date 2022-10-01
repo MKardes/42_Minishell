@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:30:00 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/01 13:26:07 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/01 18:00:27 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,18 @@ static char	*ft_word(char *str, const char *s1, t_chars ch)
 		i++;
 		a = 1;
 	}
+	else
+	{
+		str[wordlen] = ' ';
+		str[wordlen + 1] = '\0';
+	}
 	while (i - a < wordlen)
 	{
 		str[i] = s1[son - wordlen + i - a];
 		i++;
 	}
-	str[i] = '\0';
+	if (a == 1)
+		str[i] = '\0';
 	return (str);
 }
 
@@ -85,7 +91,7 @@ static int	strcount(char const *str, char c)
 	}
 	return (count);
 }
-
+/*
 static void	my_free(char **str, int wrdcnt)
 {
 	int	i;
@@ -98,10 +104,13 @@ static void	my_free(char **str, int wrdcnt)
 		if ((!str[i][0] || !str[i]) && !a)
 			a = 1;
 		else if (!str[i] || !str[i][0])
+		{
+			printf("a\n");
 			free(str[i]);
+		}
 		i++;
 	}
-}
+}*/
 
 char	**ft_dblsplit(const char *s, char c, char a)
 {
@@ -119,6 +128,6 @@ char	**ft_dblsplit(const char *s, char c, char a)
 	if (!str)
 		return (0);
 	ft_place(str, s, chrs, wrdcnt);
-	my_free(str, wrdcnt + 1);
+	//my_free(str, wrdcnt + 1);
 	return (str);
 }

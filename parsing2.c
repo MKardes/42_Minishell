@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:49:10 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/01 12:40:32 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/01 18:26:56 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,49 @@ char	*fill_it(char *str)
 		return (str);
 }
 
+int	*f_space(char str)
+{
+	int	i;
+	int	*ptr;
+	int	len;
+	int	idx;
+
+	ptr = malloc(sizeof(int) * 100);
+	idx = 0;
+	len = 1;
+	i = 0;
+	while (str[i])
+	{
+		while (str[i] == ' ')
+		{
+			if (str[i + 1] == ' ')
+			{
+				ptr[idx] = len;
+				len = 0;
+				idx++;
+			}
+			i++;
+			len++;
+		}
+		i++;
+	}
+}
+
 void	get_var(char **str)
 {
 	int		i;
 	char	*res;
 	char	*tmp;
 	char	**var;
+	int		*space;
 	
 	i = 0;
 	res = ft_strdup("");
+	space = f_space(*str);
 	var = ft_dblsplit(*str, ' ', '$');
 	while (var[i])
 	{
+		printf("[%s]\n", var[i]);
 		tmp = fill_it(var[i]);
 		if (tmp)
 		{
