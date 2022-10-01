@@ -6,53 +6,59 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:49:10 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/28 17:51:45 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/01 00:52:25 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	get_var1(char **var, *str)
+char	*fill_it(char *str)
 {
-	char	*res;
-	char	*tmp;
 	int		i;
+	char	*tmp;
+	char	*res;
 
-	i = 0;
-	while (var[i])
+	if (!str)
+		return (NULL);
+	if (str[0] == '$')
 	{
-		tmp = ft_strchr(var[i], '$');
-		if (!tmp)
-			res = ft_strjoin(res, var[i]);
+		i = env_finder(&str[1]);
+		if (i == -1)
+			return (NULL);
 		else
 		{
-			
-			res = ft_strjoin(res, str);
+			tmp = ft_strchr(shell_g.env[i], '=');
+			res = ft_strdup(++tmp);
+			return (res);
 		}
-		i++;
 	}
+	else
+		return (str);
 }
 
 void	get_var(char **str)
 {
 	int		i;
 	char	*res;
-	int		j;
+	char	*tmp;
 	char	**var;
 	
 	i = 0;
-	var = ft_split(*str, ' ');
-	get_var1(var, *str);
-	while (str[0][i] && str[0][i] != '$')
-		i++;
-	if (str[0][i] != 0)
+	res = ft_strdup("");
+	var = ft_dblsplit(*str, ' ', '$');
+	while (var[i])
 	{
-		res = malloc(sizeof(char) * i + 1);
-		ft_strlcpy(res, *str, i + 1);
+		tmp = fill_it(var[i]);
+		if (tmp)
+		{
+			res = ft_strjoin(res, tmp);
+			free(tmp);
+		}
+		i++;
 	}
-	j = i;
-	while (str[0][i] && (str[0][i] != ' '))
-
+	printf("\\%s\n",res);
+	free(var);
+	*str = res;
 }
 
 void	var_chc(void)
@@ -61,6 +67,7 @@ void	var_chc(void)
 	int	j;
 
 	i = 0;
+	printf("{%d, : %d, %d, %d}",shell_g.p_cnt, shell_g.in_pipe[0], shell_g.in_pipe[1], shell_g.in_pipe[2]);
 	while (i <= shell_g.p_cnt)
 	{
 		j = 1;

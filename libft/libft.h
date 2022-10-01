@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 12:12:32 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/17 21:11:42 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/09/30 23:42:51 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,15 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }	t_list;
+
+typedef struct s_chars
+{
+	char	a;
+	char	b;
+	int		son;
+	int		wordlen;
+	char	first;
+}	t_chars;
 
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
@@ -51,6 +60,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char c);
+char	**ft_dblsplit(char const *s, char c, char a);
 char	*ft_fsplit(char *str, char c);
 char	*ft_itoa(int n);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
