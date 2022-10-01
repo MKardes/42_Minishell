@@ -19,8 +19,8 @@ void	partition(int p, int i, int j, int c)
 	int		z;
 	int		tmp;
 
-	shell_g.all[p] = (char **)malloc(sizeof(char *) * c);
-	s = shell_g.line;
+	g_shell.all[p] = (char **)malloc(sizeof(char *) * c);
+	s = g_shell.line;
 	a = 0;
 	tmp = i;
 	while (i - tmp < j)
@@ -44,8 +44,8 @@ void	partition(int p, int i, int j, int c)
 			while (i - tmp < j && !((s[i] >= 9 && s[i] <= 13) || s[i] == 32))
 				i++;
 		z = i - z;
-		if (shell_g.in_pipe[p] != a)
-			shell_g.all[p][a] = ft_substr(s, i - z, z);
+		if (g_shell.in_pipe[p] != a)
+			g_shell.all[p][a] = ft_substr(s, i - z, z);
 		a++;
 	}
 }
@@ -82,20 +82,22 @@ void	check_fill(char *s, int i, int j, int p)
 						&& s[i + a] <= 13) || s[i + a] == 32))
 				a++;
 	}
-	shell_g.in_pipe[p] = c;
-	if (p == shell_g.p_cnt)
-		shell_g.in_pipe[p] = c;
+	g_shell.in_pipe[p] = c;
+	if (p == g_shell.p_cnt)
+		g_shell.in_pipe[p] = c;
 	partition(p, i, j, c);
 }
 
-void	quotes_state(int *a, int i, int *j, char c)//	This function passes the string until reach to the another \" or '
+void	quotes_state(int i, int *j, char c)//	This function passes the string until reach to the another \" or '
 {
 	char	*s;
 
-	s = shell_g.line;
+	s = g_shell.line;
 	(*j)++;//							To pass to the next character to continue the loop until reach the other \" or \'
 	while (s[i + (*j)] != c && s[i + (*j)])
+	{
 		(*j)++;
+	}
 }
 
 void	split_pipe(char *s)//					This function splits the string into the piped parts
@@ -107,18 +109,16 @@ void	split_pipe(char *s)//					This function splits the string into the piped pa
 	p = 0;
 	i = 0;
 	j = 0;
-	shell_g.type = 1;
 	while (s[i + j])
 	{
 		while (s[i + j] != '|' && s[i + j])
 		{
 			if (s[i + j] == '\"')
-				quotes_state(0, i, &j, '\"');
+				quotes_state(i, &j, '\"');
 			if (s[i + j] == '\'')
-				quotes_state(0, i, &j, '\'');
+				quotes_state(i, &j, '\'');
 			j++;
 		}
-		shell_g.type = 2;
 		check_fill(s, i, j, p);
 		p++;
 		if (!s[i + j])//						To break the loop when i + j + 1 not equal to '\0' character
@@ -141,18 +141,18 @@ void	parsing(void)
 	char	*s;
 	int		i;
 
-	s = shell_g.line;
+	s = g_shell.line;
 	i = 0;
 	while (s[i])
 	{
 		if (s[i] == '\"' || s[i] == '\'')
 			pass(s, &i, s[i]);
 		if (s[i] == '|')
-			shell_g.p_cnt++;
+			g_shell.p_cnt++;
 		i++;
 	}
-	shell_g.all = (char ***)malloc(sizeof(char **) * (shell_g.p_cnt + 1));
-	shell_g.in_pipe = (int *)malloc(sizeof(int) * (shell_g.p_cnt + 1));
+	g_shell.all = (char ***)malloc(sizeof(char **) * (g_shell.p_cnt + 1));
+	g_shell.in_pipe = (int *)malloc(sizeof(int) * (g_shell.p_cnt + 1));
 	split_pipe(s);
 	var_chc();
 }

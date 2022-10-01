@@ -34,19 +34,19 @@ int	denme(void)
 
 void	start1(void)
 {
-	if (ft_strstr(shell_g.all[shell_g.p][0], "env"))
+	if (ft_strstr(g_shell.all[g_shell.p][0], "env"))
 		env();
-	else if (ft_strstr(shell_g.all[shell_g.p][0], "export"))
+	else if (ft_strstr(g_shell.all[g_shell.p][0], "export"))
         my_export();
-	else if (ft_strstr(shell_g.all[shell_g.p][0], "echo"))
+	else if (ft_strstr(g_shell.all[g_shell.p][0], "echo"))
 		echo();
-	else if (ft_strstr(shell_g.all[shell_g.p][0], "cd"))
+	else if (ft_strstr(g_shell.all[g_shell.p][0], "cd"))
 		cd();
-	else if (ft_strstr(shell_g.all[shell_g.p][0], "pwd"))
+	else if (ft_strstr(g_shell.all[g_shell.p][0], "pwd"))
         pwd();
-	else if (ft_strstr(shell_g.all[shell_g.p][0], "exit"))
+	else if (ft_strstr(g_shell.all[g_shell.p][0], "exit"))
 		my_exit();
-	else if (ft_strstr(shell_g.all[shell_g.p][0], "unset"))
+	else if (ft_strstr(g_shell.all[g_shell.p][0], "unset"))
 		my_unset();
 	//execve=
 	//lstat
@@ -64,27 +64,27 @@ void	start1(void)
 
 void	info_(void)
 {
-	read(shell_g.mpipe[0], shell_g.info, 10000);
+	read(g_shell.mpipe[0], g_shell.info, 10000);
 }
 
 void	start(void)
 {
 	int	pid;
 
-	if (shell_g.all[shell_g.p + 1] != NULL && shell_g.all[shell_g.p][0][0] == 'p')
+	if (g_shell.all[g_shell.p + 1] != NULL && g_shell.all[g_shell.p][0][0] == 'p')
     {
         pid = fork();
         if (pid == 0)
         {
-            dup2(shell_g.mpipe[1], 1);
-			close(shell_g.mpipe[0]);
+            dup2(g_shell.mpipe[1], 1);
+			close(g_shell.mpipe[0]);
 			start1();
-			close(shell_g.mpipe[1]);
+			close(g_shell.mpipe[1]);
 			exit(0);
         }
 		wait(NULL);
 		info_();
-		printf("(%s)\n", shell_g.info);
+		printf("(%s)\n", g_shell.info);
     }
 	else
 		start1();

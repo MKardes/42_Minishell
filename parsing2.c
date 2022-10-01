@@ -27,7 +27,7 @@ char	*fill_it(char *str)
 			return (NULL);
 		else
 		{
-			tmp = ft_strchr(shell_g.env[i], '=');
+			tmp = ft_strchr(g_shell.env[i], '=');
 			free(str);
 			res = ft_strdup(++tmp);
 			return (res);
@@ -69,12 +69,12 @@ void	var_chc(void)
 	int	j;
 
 	i = 0;
-	while (i <= shell_g.p_cnt)
+	while (i <= g_shell.p_cnt)
 	{
 		j = 1;
-		while (j < shell_g.in_pipe[i])
+		while (j < g_shell.in_pipe[i])
 		{
-			get_var(&shell_g.all[i][j]);
+			get_var(&g_shell.all[i][j]);
 			char	*op=ft_strdup("bbbbbbbb");
 			j++;
 		}

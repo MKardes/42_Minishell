@@ -3,14 +3,14 @@
 void	printer(void)
 {
 	int a = 0, b, c;
-    printf("p_cnt: %d\n", shell_g.p_cnt);
-    while (a <= shell_g.p_cnt)
+    printf("p_cnt: %d\n", g_shell.p_cnt);
+    while (a <= g_shell.p_cnt)
     {
-        printf("%d. word count: %d", a, shell_g.in_pipe[a]);
+        printf("%d. word count: %d", a, g_shell.in_pipe[a]);
         b = 0;
-        while (b < shell_g.in_pipe[a])
+        while (b < g_shell.in_pipe[a])
         {
-            printf("[%s] ", shell_g.all[a][b]);
+            printf("[%s] ", g_shell.all[a][b]);
             b++;
         }
         a++;

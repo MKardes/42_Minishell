@@ -38,12 +38,12 @@ typedef struct m_shell {
 	char	*info;
 }	t_shell;
 
-t_shell	shell_g;
+t_shell	g_shell;
 
 void	printer(void);
 void	partition(int p, int i, int j, int c);
 void	check_fill(char *s, int i, int j, int p);
-void	quotes_state(int *a, int i, int *j, char c);
+void	quotes_state(int i, int *j, char c);
 void	split_pipe(char *s);
 void	pass(char *s, int *i, char c);
 void	parsing(void);

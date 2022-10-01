@@ -18,9 +18,9 @@ int	env_finder(char *str)
 	char	*var;
 
 	i = 0;
-	while (shell_g.env[i])
+	while (g_shell.env[i])
 	{
-		var = ft_fsplit(shell_g.env[i], '=');
+		var = ft_fsplit(g_shell.env[i], '=');
 		if (ft_strstr(var, str))
 		{
 			free(var);

@@ -18,16 +18,16 @@ void	env(void)
 
 	i = 0;
 	/*
-	if (shell_g.in_pipe[shell_g.p] != 1)
+	if (g_shell.in_pipe[g_shell.p] != 1)
 	{
 		ft_error("env", "Undifened option or argument");
 		return ;
 	}
 	It's loced just to check environmental variables
 	*/
-	while (shell_g.env[i])
+	while (g_shell.env[i])
 	{
-		printf("%s\n", shell_g.env[i]);
+		printf("%s\n", g_shell.env[i]);
 		i++;
 	}
 }
@@ -52,9 +52,9 @@ int	check_if_exist(char **env, char *str)
 		var = ft_fsplit(env[i], '=');
 		if (ft_strstr(var, s))
 		{
-			free(shell_g.env[i]);
+			free(g_shell.env[i]);
 			tmp = ft_strjoin(var, "=");
-			shell_g.env[i] = ft_strjoin(tmp, last);
+			g_shell.env[i] = ft_strjoin(tmp, last);
 			free(tmp);
 			free(s);
 			return (1);
@@ -73,16 +73,16 @@ void	env_add(char *str)
 	int		j;
 
 	i = 0;
-	while (shell_g.env[i])
+	while (g_shell.env[i])
 		i++;
 	n_env = (char **)malloc(sizeof(char *) * (i + 1));
 	j = -1;
 	while (++j < i)
-		n_env[j] = shell_g.env[j];
+		n_env[j] = g_shell.env[j];
 	n_env[i] = ft_strdup(str);
 	i = -1;
-	free(shell_g.env);
-	shell_g.env = n_env;
+	free(g_shell.env);
+	g_shell.env = n_env;
 }
 
 void	my_export(void)
@@ -92,23 +92,23 @@ void	my_export(void)
 	i = 1;
 	if (!operator_chc())
 		return ;
-	if (!shell_g.all[shell_g.p][1])
+	if (!g_shell.all[g_shell.p][1])
 	{
 		i = 0;
-		while (shell_g.env[i])
+		while (g_shell.env[i])
 		{
-			printf("declare -x %s\n",shell_g.env[i]);
+			printf("declare -x %s\n",g_shell.env[i]);
 			i++;
 		}
 	}
-	while (i < shell_g.in_pipe[shell_g.p])
+	while (i < g_shell.in_pipe[g_shell.p])
 	{
 		int	h;
 		
-		h = check_if_exist(shell_g.env, shell_g.all[shell_g.p][i]);
+		h = check_if_exist(g_shell.env, g_shell.all[g_shell.p][i]);
 		if (h == -1)
 		{
-			env_add(shell_g.all[shell_g.p][i]);
+			env_add(g_shell.all[g_shell.p][i]);
 			env();
 		}
 		i++;
@@ -123,6 +123,6 @@ void	sig_int(int sig)
 		//rl_on_new_line();
 		//rl_redisplay();
 		//rl_replace_line("aaaaaaa", 1);
-		printf("\n%s", shell_g.prompt);
+		printf("\n%s", g_shell.prompt);
 	}
 }

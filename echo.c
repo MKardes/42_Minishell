@@ -18,9 +18,9 @@ void	echo(void)
 	int	n_chc;
 
 	n_chc = 0;
-	if (shell_g.all[shell_g.p][i][0] == '-')
+	if (g_shell.all[g_shell.p][i][0] == '-')
 	{
-		if (shell_g.all[shell_g.p][i][1] == 'n')
+		if (g_shell.all[g_shell.p][i][1] == 'n')
 			n_chc = 1;
 		else
 		{
@@ -29,10 +29,10 @@ void	echo(void)
 		}
 	}
 	i = 1;
-	while (i + n_chc  < shell_g.in_pipe[shell_g.p])
+	while (i + n_chc  < g_shell.in_pipe[g_shell.p])
 	{
-		printf("%s", shell_g.all[shell_g.p][i + n_chc]);
-		if (i + n_chc + 1 != shell_g.in_pipe[shell_g.p])
+		printf("%s", g_shell.all[g_shell.p][i + n_chc]);
+		if (i + n_chc + 1 != g_shell.in_pipe[g_shell.p])
 			printf(" ");
 		i++;
 	}

@@ -45,17 +45,17 @@ void	my_unset(void)
 	if (!operator_chc())
 		return ;
 	i = 1;
-	while (i < shell_g.in_pipe[shell_g.p])
+	while (i < g_shell.in_pipe[g_shell.p])
 	{
 		l = 0;
-		while (shell_g.env[l])
+		while (g_shell.env[l])
 			l++;
 		j = 0;
-		while (shell_g.env[j])
+		while (g_shell.env[j])
 		{
-			tmp = ft_fsplit(shell_g.env[j], '=');
-			if (ft_strstr(tmp, shell_g.all[shell_g.p][i]))
-				shell_g.env = get_it_out(shell_g.env, j, l);
+			tmp = ft_fsplit(g_shell.env[j], '=');
+			if (ft_strstr(tmp, g_shell.all[g_shell.p][i]))
+				g_shell.env = get_it_out(g_shell.env, j, l);
 			free(tmp);
 			j++;
 		}

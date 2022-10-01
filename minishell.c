@@ -36,31 +36,31 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	if (ac != 1)
 		return (0);
-	shell_g.mpipe = (int *)malloc(sizeof(int) * 2);
-	shell_g.env = ft_strddup(env);
-	shell_g.info = malloc(10000);
-	shell_g.p_cnt = 0;
-	shell_g.prompt = ft_strdup("<\033[0;92m Shell\033[0;39m > ");
-	pipe(shell_g.mpipe);
+	g_shell.mpipe = (int *)malloc(sizeof(int) * 2);
+	g_shell.env = ft_strddup(env);
+	g_shell.info = malloc(10000);
+	g_shell.p_cnt = 0;
+	g_shell.prompt = ft_strdup("<\033[0;92m Shell\033[0;39m > ");
+	pipe(g_shell.mpipe);
 	signal(SIGINT, sig_int);
 	minishell_put();
 	while (1)
 	{
-		shell_g.p = 0;
-		if (shell_g.line)
+		g_shell.p = 0;
+		if (g_shell.line)
 		{
-			free(shell_g.line);
-			shell_g.line = NULL;
+			free(g_shell.line);
+			g_shell.line = NULL;
 		}
-		shell_g.line = readline(shell_g.prompt);
-		if (!shell_g.line)
+		g_shell.line = readline(g_shell.prompt);
+		if (!g_shell.line)
 		{
 			printf("exit\n");
 			exit(0);
 		}
-		if (!shell_g.line[0])
+		if (!g_shell.line[0])
             continue ;
-		add_history(shell_g.line);
+		add_history(g_shell.line);
 		parsing();
 		//sign_chc();
 		start();

@@ -30,11 +30,11 @@ void	ch_wd(char *old, char *dest)
 	}
 	else
 	{
-		free(shell_g.env[j]);
-		shell_g.env[j] = ft_strjoin("OLDPWD=", old);
+		free(g_shell.env[j]);
+		g_shell.env[j] = ft_strjoin("OLDPWD=", old);
 	}
-	free(shell_g.env[i]);
-	shell_g.env[i] = ft_strjoin("PWD=", wd);
+	free(g_shell.env[i]);
+	g_shell.env[i] = ft_strjoin("PWD=", wd);
 	free(old);
 	free(wd);
 }
@@ -46,13 +46,13 @@ char	*dir_sign(char *str, char c)
 
 	if (c == '-')
 	{
-		dest = ft_strdup(ft_strchr(shell_g.env[env_finder("OLDPWD")], '=') + 1);
+		dest = ft_strdup(ft_strchr(g_shell.env[env_finder("OLDPWD")], '=') + 1);
 		return (dest);
 	}
 	else
 	{
-		ft_strchr(shell_g.env[env_finder("HOME")], '=');
-		dest = ft_strjoin((ft_strchr(shell_g.env[env_finder("HOME")], '=') + 1), str);
+		ft_strchr(g_shell.env[env_finder("HOME")], '=');
+		dest = ft_strjoin((ft_strchr(g_shell.env[env_finder("HOME")], '=') + 1), str);
 		return (dest);
 	}
 }
@@ -62,13 +62,13 @@ void	cd(void)
 	char	*dest;
 	char	*old;
 
-	if ((shell_g.all[shell_g.p][1][0] == '-' && !shell_g.all[shell_g.p][1][1])
-			|| shell_g.all[shell_g.p][1][0] == '~')
-		dest = dir_sign((shell_g.all[shell_g.p][1] + 1), shell_g.all[shell_g.p][1][0]);
+	if ((g_shell.all[g_shell.p][1][0] == '-' && !g_shell.all[g_shell.p][1][1])
+			|| g_shell.all[g_shell.p][1][0] == '~')
+		dest = dir_sign((g_shell.all[g_shell.p][1] + 1), g_shell.all[g_shell.p][1][0]);
 	else if (!operator_chc())
 		return ;
 	else
-		dest = ft_strdup(shell_g.all[shell_g.p][1]);
+		dest = ft_strdup(g_shell.all[g_shell.p][1]);
 	old = getcwd(NULL, 1024);
 	if (chdir(dest) == -1)
 	{
@@ -93,12 +93,12 @@ void	pwd(void)
 	i = 0;
 	if (!operator_chc())
 		return ;
-	while (shell_g.env[i])
+	while (g_shell.env[i])
 	{
-		s = ft_fsplit(shell_g.env[i], '=');
+		s = ft_fsplit(g_shell.env[i], '=');
 		if (ft_strstr(s, "PWD"))
 		{
-			a = ft_strchr(shell_g.env[i], '=');
+			a = ft_strchr(g_shell.env[i], '=');
 			printf("%s\n", ++a);
 			free(s);
 			break ;
