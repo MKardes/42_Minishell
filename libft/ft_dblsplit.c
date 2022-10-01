@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:30:00 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/01 00:08:27 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/01 13:26:07 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,23 @@ static int	strcount(char const *str, char c)
 	return (count);
 }
 
+static void	my_free(char **str, int wrdcnt)
+{
+	int	i;
+	int	a;
+
+	a = 0;
+	i = 0;
+	while (i < wrdcnt)
+	{
+		if ((!str[i][0] || !str[i]) && !a)
+			a = 1;
+		else if (!str[i] || !str[i][0])
+			free(str[i]);
+		i++;
+	}
+}
+
 char	**ft_dblsplit(const char *s, char c, char a)
 {
 	char	**str;
@@ -102,5 +119,6 @@ char	**ft_dblsplit(const char *s, char c, char a)
 	if (!str)
 		return (0);
 	ft_place(str, s, chrs, wrdcnt);
+	my_free(str, wrdcnt + 1);
 	return (str);
 }

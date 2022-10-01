@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:49:10 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/01 00:52:25 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/01 12:40:32 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ char	*fill_it(char *str)
 		else
 		{
 			tmp = ft_strchr(shell_g.env[i], '=');
+			free(str);
 			res = ft_strdup(++tmp);
 			return (res);
 		}
@@ -56,8 +57,9 @@ void	get_var(char **str)
 		}
 		i++;
 	}
-	printf("\\%s\n",res);
+	char	*sss = ft_strdup("aaaaaaaaa");
 	free(var);
+	free(*str);
 	*str = res;
 }
 
@@ -67,13 +69,13 @@ void	var_chc(void)
 	int	j;
 
 	i = 0;
-	printf("{%d, : %d, %d, %d}",shell_g.p_cnt, shell_g.in_pipe[0], shell_g.in_pipe[1], shell_g.in_pipe[2]);
 	while (i <= shell_g.p_cnt)
 	{
 		j = 1;
 		while (j < shell_g.in_pipe[i])
 		{
 			get_var(&shell_g.all[i][j]);
+			char	*op=ft_strdup("bbbbbbbb");
 			j++;
 		}
 		i++;
