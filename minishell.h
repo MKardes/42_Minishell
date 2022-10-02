@@ -62,5 +62,6 @@ int		operator_chc(void);
 int		env_finder(char *str);
 void	env_add(char *str);
 void	var_chc(void);
+void	func(char *s, int i, int *a, int j);
 
 #endif

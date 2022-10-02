@@ -51,6 +51,7 @@ void	partition(int p, int i, int j, int c)
 }
 
 //This function allocates to the string parts and fill them into the correct parts.
+
 void	check_fill(char *s, int i, int j, int p)
 {
 	int	cnt;
@@ -65,18 +66,8 @@ void	check_fill(char *s, int i, int j, int p)
 		if (s[i + a] == '|' || !s[i + a])
 			cnt--;
 		cnt++;
-		if (s[i + a] == '\"')
-		{
-			while (s[i + a] != '\"' && a < j)
-				a++;
-			a++;
-		}
-		else if (s[i + a] == '\'')
-		{
-			while (s[i + a] != '\'' && a < j)
-				a++;
-			a++;
-		}
+		if ((s[i + a] == '\"' ) || (s[i + a] == '\''))
+			func(s, i, &a, j);
 		else
 			while (a < j && !((s[i + a] >= 9
 						&& s[i + a] <= 13) || s[i + a] == 32))
@@ -86,6 +77,21 @@ void	check_fill(char *s, int i, int j, int p)
 	if (p == g_shell.p_cnt)
 		g_shell.in_pipe[p] = cnt;
 	partition(p, i, j, cnt);
+}
+void	func(char *s, int i, int *a, int j)
+{
+	if (s[i + (*a)] == '\"')
+	{
+		while (s[i + (*a)] != '\"' && (*a) < j)
+			(*a)++;
+		(*a)++;
+	}
+	else
+	{
+		while (s[i + (*a)] != '\'' && (*a) < j)
+			(*a)++;
+		(*a)++;
+	}
 }
 
 void	quotes_state(int i, int *j, char c)//	This function passes the string until reach to the another \" or '
