@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:49:10 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/01 18:26:56 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/02 15:22:08 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*fill_it(char *str)
 		return (str);
 }
 
-int	*f_space(char str)
+int	*f_space(char *str)
 {
 	int	i;
 	int	*ptr;
@@ -50,19 +50,27 @@ int	*f_space(char str)
 	i = 0;
 	while (str[i])
 	{
-		while (str[i] == ' ')
-		{
-			if (str[i + 1] == ' ')
+		if (str[i] == ' ')
+			while (str[i] == ' ' || str[i] == '$')
 			{
-				ptr[idx] = len;
-				len = 0;
-				idx++;
+				if (str[i + 1] == '$')
+					i++;
+				else if (str[i + 1] != ' ' )
+				{
+					ptr[idx] = len;
+					len = 0;
+					idx++;
+				}
+				i++;
+				len++;
 			}
+		else
 			i++;
-			len++;
-		}
-		i++;
 	}
+	i = -1;
+	while (++i < idx)
+		printf("%d\n",ptr[i]);
+	return (ptr);
 }
 
 void	get_var(char **str)
@@ -75,7 +83,7 @@ void	get_var(char **str)
 	
 	i = 0;
 	res = ft_strdup("");
-	space = f_space(*str);
+	//space = f_space(*str);
 	var = ft_dblsplit(*str, ' ', '$');
 	while (var[i])
 	{
