@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 10:56:25 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/22 18:11:57 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/02 17:06:37 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	operator_chc(void)
 	{
 		if (g_shell.all[g_shell.p][i][0] == '-')
 		{
-			ft_error(g_shell.all[g_shell.p][0], "Undifened option");
+			ft_error(g_shell.all[g_shell.p][0], "Undefined option");
 			return (0);
 		}
 		i++;

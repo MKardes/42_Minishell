@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 09:45:09 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/23 14:39:15 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/02 17:19:36 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,13 @@ char	*dir_sign(char *str, char c)
 		dest = ft_strdup(ft_strchr(g_shell.env[env_finder("OLDPWD")], '=') + 1);
 		return (dest);
 	}
-	else
+	else if (c == '~')
 	{
 		ft_strchr(g_shell.env[env_finder("HOME")], '=');
 		dest = ft_strjoin((ft_strchr(g_shell.env[env_finder("HOME")], '=') + 1), str);
 		return (dest);
 	}
+	return (NULL);
 }
 
 void	cd(void)
@@ -62,10 +63,12 @@ void	cd(void)
 	char	*dest;
 	char	*old;
 
-	if ((g_shell.all[g_shell.p][1][0] == '-' && !g_shell.all[g_shell.p][1][1])
+	if ((g_shell.all[g_shell.p][1][0] == '-' && g_shell.all[g_shell.p][1][1] == ' ')
 			|| g_shell.all[g_shell.p][1][0] == '~')
+	{
 		dest = dir_sign((g_shell.all[g_shell.p][1] + 1), g_shell.all[g_shell.p][1][0]);
-	else if (!operator_chc())
+	
+	}else if (!operator_chc())
 		return ;
 	else
 		dest = ft_strdup(g_shell.all[g_shell.p][1]);

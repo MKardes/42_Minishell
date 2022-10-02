@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:49:10 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/02 15:22:08 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/02 17:04:27 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ int	*f_space(char *str)
 			while (str[i] == ' ' || str[i] == '$')
 			{
 				if (str[i + 1] == '$')
-					i++;
+					while (str[i] != ' ')
+						i++;
 				else if (str[i + 1] != ' ' )
 				{
 					ptr[idx] = len;
@@ -83,20 +84,22 @@ void	get_var(char **str)
 	
 	i = 0;
 	res = ft_strdup("");
-	//space = f_space(*str);
+	space = f_space(*str);
 	var = ft_dblsplit(*str, ' ', '$');
 	while (var[i])
 	{
-		printf("[%s]\n", var[i]);
+	//	printf("[%s]\n", var[i]);
 		tmp = fill_it(var[i]);
 		if (tmp)
 		{
+		//	if (tmp[ft_strlen(tmp) - 1] == ' ')
+		//		tmp = ft_strjoin();
 			res = ft_strjoin(res, tmp);
 			free(tmp);
 		}
 		i++;
 	}
-	char	*sss = ft_strdup("aaaaaaaaa");
+	//char	*sss = ft_strdup("aaaaaaaaa");
 	free(var);
 	free(*str);
 	*str = res;
@@ -114,7 +117,7 @@ void	var_chc(void)
 		while (j < g_shell.in_pipe[i])
 		{
 			get_var(&g_shell.all[i][j]);
-			char	*op=ft_strdup("bbbbbbbb");
+		//	char	*op=ft_strdup("bbbbbbbb");
 			j++;
 		}
 		i++;
