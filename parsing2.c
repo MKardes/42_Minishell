@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:49:10 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/02 17:04:27 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/02 18:43:38 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,25 @@ int	*f_space(char *str)
 		else
 			i++;
 	}
-	i = -1;
-	while (++i < idx)
-		printf("%d\n",ptr[i]);
 	return (ptr);
+}
+
+char	*ft_spacejoin(char *tmp, int sp_cnt)
+{
+	int		i;
+	char	*spcs;
+
+	i = 0;
+	spcs = malloc(sp_cnt + 1);
+	while (i < sp_cnt)
+	{
+		spcs[i] = ' ';
+		i++;
+	}
+	spcs[i] = '\0';
+	tmp = ft_strjoin(tmp, spcs);
+	free(spcs);
+	return (tmp);
 }
 
 void	get_var(char **str)
@@ -88,12 +103,14 @@ void	get_var(char **str)
 	var = ft_dblsplit(*str, ' ', '$');
 	while (var[i])
 	{
-	//	printf("[%s]\n", var[i]);
+		printf("[%s]\n", var[i]);
 		tmp = fill_it(var[i]);
 		if (tmp)
 		{
-		//	if (tmp[ft_strlen(tmp) - 1] == ' ')
-		//		tmp = ft_strjoin();
+			printf("a --- ");
+			if (tmp[ft_strlen(tmp) - 1] == ' ')
+				tmp = ft_spacejoin(tmp, space[i]);
+			printf("b\n");
 			res = ft_strjoin(res, tmp);
 			free(tmp);
 		}

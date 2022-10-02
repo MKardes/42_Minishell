@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:21:43 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/01 00:30:00 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/02 17:24:35 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	main(int ac, char **av, char **env)
 		g_shell.line = readline(g_shell.prompt);
 		if (!g_shell.line)
 		{
-			printf("exit\n");
+			ft_putstr_fd("exit\n", 1);
 			exit(0);
 		}
 		if (!g_shell.line[0])
