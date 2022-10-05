@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:49:10 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/02 18:43:38 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/05 13:57:50 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ char	*ft_spacejoin(char *tmp, int sp_cnt)
 	char	*spcs;
 
 	i = 0;
-	spcs = malloc(sp_cnt + 1);
-	while (i < sp_cnt)
+	spcs = malloc(sp_cnt);
+	while (i < sp_cnt - 1)
 	{
 		spcs[i] = ' ';
 		i++;
@@ -103,23 +103,35 @@ void	get_var(char **str)
 	var = ft_dblsplit(*str, ' ', '$');
 	while (var[i])
 	{
-		printf("[%s]\n", var[i]);
+		printf("aa[%s]\n", var[i]);
 		tmp = fill_it(var[i]);
 		if (tmp)
 		{
-			printf("a --- ");
+			printf("a -[%s]",tmp);
 			if (tmp[ft_strlen(tmp) - 1] == ' ')
 				tmp = ft_spacejoin(tmp, space[i]);
-			printf("b\n");
+			printf(" [%s]- b\n",tmp);
 			res = ft_strjoin(res, tmp);
+			printf("c\n");
 			free(tmp);
 		}
 		i++;
 	}
-	//char	*sss = ft_strdup("aaaaaaaaa");
 	free(var);
 	free(*str);
 	*str = res;
+}
+
+char	*ft_get_it(char *str)
+{
+	str = ft_strdup(NULL);
+	return str;
+}
+
+void	get_varriable(char **str)
+{
+	char	*res;
+	res = ft_get_it(*str);
 }
 
 void	var_chc(void)
@@ -133,8 +145,7 @@ void	var_chc(void)
 		j = 1;
 		while (j < g_shell.in_pipe[i])
 		{
-			get_var(&g_shell.all[i][j]);
-		//	char	*op=ft_strdup("bbbbbbbb");
+			get_varriable(&g_shell.all[i][j]);
 			j++;
 		}
 		i++;
