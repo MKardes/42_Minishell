@@ -28,18 +28,8 @@ void	partition(int p, int i, int j, int c)
 		while (i - tmp < j && ((s[i] >= 9 && s[i] <= 13) || s[i] == 32))
 			i++;
 		z = i;
-		if (s[i] == '\"')
-		{
-			while (s[++i] != '\"' && i - tmp < j)
-				;
-			i++;
-		}
-		else if (s[i] == '\'')
-		{
-			while (s[++i] != '\'' && i - tmp < j)
-				;
-			i++;
-		}
+		if ((s[i] == '\"') || (s[i] == '\''))
+			partition_func(s, &i, tmp, j);
 		else
 			while (i - tmp < j && !((s[i] >= 9 && s[i] <= 13) || s[i] == 32))
 				i++;
@@ -50,6 +40,21 @@ void	partition(int p, int i, int j, int c)
 	}
 }
 
+void	partition_func(char	*s, int *i, int tmp, int j)
+{
+	if (s[*i] == '\"')
+	{
+		while (s[++(*i)] != '\"' && (*i) - tmp < j)
+			;
+		(*i)++;
+	}
+	else if (s[(*i)] == '\'')
+	{
+		while (s[(++(*i))] != '\'' && (*i) - tmp < j)
+			;
+		(*i)++;
+	}
+}
 //This function allocates to the string parts and fill them into the correct parts.
 
 void	check_fill(char *s, int i, int j, int p)
@@ -67,8 +72,8 @@ void	check_fill(char *s, int i, int j, int p)
 			cnt--;
 		cnt++;
 		if ((s[i + a] == '\"' ) || (s[i + a] == '\''))
-			func(s, i, &a, j);
-		else
+			check_func(s, i, &a, j);
+		else 
 			while (a < j && !((s[i + a] >= 9
 						&& s[i + a] <= 13) || s[i + a] == 32))
 				a++;
@@ -78,7 +83,7 @@ void	check_fill(char *s, int i, int j, int p)
 		g_shell.in_pipe[p] = cnt;
 	partition(p, i, j, cnt);
 }
-void	func(char *s, int i, int *a, int j)
+void	check_func(char *s, int i, int *a, int j)
 {
 	if (s[i + (*a)] == '\"')
 	{
@@ -158,5 +163,5 @@ void	parsing(void)
 	g_shell.all = (char ***)malloc(sizeof(char **) * (g_shell.p_cnt + 1));
 	g_shell.in_pipe = (int *)malloc(sizeof(int) * (g_shell.p_cnt + 1));
 	split_pipe(s);
-	var_chc();
+	//var_chc();
 }

@@ -62,6 +62,7 @@ int		operator_chc(void);
 int		env_finder(char *str);
 void	env_add(char *str);
 void	var_chc(void);
-void	func(char *s, int i, int *a, int j);
+void	check_func(char *s, int i, int *a, int j);
+void	partition_func(char	*s, int *i, int tmp, int j);
 
 #endif

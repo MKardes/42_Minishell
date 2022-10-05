@@ -62,9 +62,7 @@ int	main(int ac, char **av, char **env)
             continue ;
 		add_history(g_shell.line);
 		parsing();
-		//sign_chc();
 		start();
-		//pipe_sign_chc();
 		myfree();
 	}
 	return (0);
