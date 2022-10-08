@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:25:40 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/01 00:40:10 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/08 00:01:21 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_shell	g_shell;
 void	printer(void);
 void	partition(int p, int i, int j, int c);
 void	check_fill(char *s, int i, int j, int p);
-void	quotes_state(int i, int *j, char c);
+void	quotes_state(char *s, int i, int *j, char c);
 void	split_pipe(char *s);
 void	pass(char *s, int *i, char c);
 void	parsing(void);
@@ -61,7 +61,7 @@ void	ft_error(char *command, char *msg);
 int		operator_chc(void);
 int		env_finder(char *str);
 void	env_add(char *str);
-void	var_chc(void);
+void	check_quote_var(void);
 void	check_func(char *s, int i, int *a, int j);
 void	partition_func(char	*s, int *i, int tmp, int j);
 

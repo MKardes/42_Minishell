@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:49:10 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/08 07:38:08 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/08 07:34:29 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,13 +139,11 @@ char	*get_varriable(char *str)
 	return (res);
 }
 
-void	cpy_withn_qoute(char **neww, const char *src)
+void	cpy_withn_qoute(char *new, const char *src)
 {
 	int		i;
 	char	c;
-	char	*new;
 
-	*neww = new;
 	i = 0;
 	while (src[i])
 	{
@@ -168,7 +166,6 @@ void	cpy_withn_qoute(char **neww, const char *src)
 		}
 	}
 	new[i] = '\0';
-	*neww = new;
 }
 
 char	*rm_quotes(char *str)
@@ -190,7 +187,7 @@ char	*rm_quotes(char *str)
 			i++;
 	}
 	new = malloc(ft_strlen(str) + 1 - cnt);
-	cpy_withn_qoute(&new, str);
+	cpy_withn_qoute(new, str);
 	return (new);
 }
 
@@ -207,10 +204,9 @@ void	check_quote_var(void)
 		while (j < g_shell.in_pipe[i])
 		{
 			tmp = rm_quotes(g_shell.all[i][j]);
-			//printf("(%p)%s\n(%p)%s\n\n",g_shell.all[i][j], g_shell.all[i][j], tmp, tmp);
-			//free(g_shell.all[i][j]);
+			printf("(%p)%s\n(%p)%s\n\n",g_shell.all[i][j], g_shell.all[i][j], tmp, tmp)
+			free(g_shell.all[i][j]);
 			g_shell.all[i][j] = get_varriable(tmp);
-			//free(tmp)
 			j++;
 		}
 		i++;

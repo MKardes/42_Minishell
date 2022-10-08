@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:58:40 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/01 00:25:49 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/07 21:19:17 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,7 @@ void	sig_int(int sig)
 		//rl_redisplay();
 		//rl_replace_line("aaaaaaa", 1);
 		printf("\n%s", g_shell.prompt);
+		free(g_shell.line);
+		g_shell.line = NULL;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:21:43 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/05 18:09:22 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/08 00:07:25 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,13 @@ void	partition(int p, int i, int j, int cnt)
 		while (i - tmp < j && s[i] == 32)
 			i++;
 		z = i;
-		if ((s[i] == '\"') || (s[i] == '\''))
-			partition_func(s, &i, tmp, j);
-		else
-			while (i - tmp < j && s[i] != 32)
-			{
-				if ((s[i] == '\"') || (s[i] == '\''))
-					partition_func(s, &i, tmp, j);
-				else
-					i++;
-			}
+		while (i - tmp < j && s[i] != 32)
+		{
+			if ((s[i] == '\"') || (s[i] == '\''))
+				partition_func(s, &i, tmp, j);
+			else
+				i++;
+		}
 		z = i - z;
 		if (g_shell.in_pipe[p] != a)
 			g_shell.all[p][a] = ft_substr(s, i - z, z);
@@ -79,22 +76,20 @@ void	check_fill(char *s, int i, int j, int p)
 			break;
 		}
 		cnt++;
-		if ((s[i + a] == '\"' ) || (s[i + a] == '\''))
-			check_func(s, i, &a, j);
-		else 
-			while (a < j && s[i + a] != 32)
-			{
-				if ((s[i + a] == '\"' ) || (s[i + a] == '\''))
-					check_func(s, i, &a, j);
-				else
-					a++;
-			}
+		while (a < j && s[i + a] != 32)
+		{
+			if (s[i + a] == '\"' || s[i + a] == '\'')
+				check_func(s, i, &a, j);
+			else
+				a++;
+		}
 	}
 	g_shell.in_pipe[p] = cnt;
 	if (p == g_shell.p_cnt)
 		g_shell.in_pipe[p] = cnt;
 	partition(p, i, j, cnt);
 }
+
 void	check_func(char *s, int i, int *a, int j)
 {
 	if (s[i + (*a)] == '\"')
@@ -113,11 +108,8 @@ void	check_func(char *s, int i, int *a, int j)
 	}
 }
 
-void	quotes_state(int i, int *j, char c)//	This function passes the string until reach to the another \" or '
+void	quotes_state(char *s, int i, int *j, char c)//	This function passes the string until reach to the another \" or '
 {
-	char	*s;
-
-	s = g_shell.line;
 	(*j)++;//							To pass to the next character to continue the loop until reach the other \" or \'
 	while (s[i + (*j)] != c && s[i + (*j)])
 		(*j)++;
@@ -137,9 +129,9 @@ void	split_pipe(char *s)//					This function splits the string into the piped pa
 		while (s[i + j] != '|' && s[i + j])
 		{
 			if (s[i + j] == '\"')
-				quotes_state(i, &j, '\"');
+				quotes_state(s, i, &j, '\"');
 			if (s[i + j] == '\'')
-				quotes_state(i, &j, '\'');
+				quotes_state(s, i, &j, '\'');
 			j++;
 		}
 		check_fill(s, i, j, p);
@@ -177,6 +169,5 @@ void	parsing(void)
 	g_shell.all = (char ***)malloc(sizeof(char **) * (g_shell.p_cnt + 1));
 	g_shell.in_pipe = (int *)malloc(sizeof(int) * (g_shell.p_cnt + 1));
 	split_pipe(s);
-	printer();
-	//var_chc();
+	check_quote_var();
 }
