@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:49:10 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/08 07:38:08 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/12 12:53:11 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,14 @@ char	*fill_it(char *str)
 	if (!str)
 		return (NULL);
 	var = cut_var(str);
+	printf("_%s",var);
 	i = env_finder(var);
 	free(var);
 	if (i == -1)
-		return (NULL);
+	{
+		printf("\t\t%s\n\t\t[%s]\n",str,var);
+		return (ft_strdup("yok"));
+	}
 	else
 	{
 		tmp = ft_strchr(g_shell.env[i], '=');
@@ -95,6 +99,7 @@ char	*complete(char *str)
 	while (str[i] != '$' && str[i])
 		i++;
 	res = malloc(i + 1);
+	i = 0;
 	while (str[i] != '$' && str[i])
 	{
 		res[i] = str[i];
@@ -108,44 +113,49 @@ char	*get_varriable(char *str)
 {
 	char	*res;
 	char	*tmp;
+	char	*res1;
 	int		i;
 	int		a;
 
 	i = 0;
-	res = ft_strdup("");
+	res1 = malloc(1);
+	res1[0] = '\0';
 	while (str[i])
 	{
 		if (str[i] == '$')
 		{
 			i++;
+			printf("begin->%s\n", tmp);
 			tmp = fill_it(&str[i]);
+			printf("end->%s\n\n", tmp);
 			while (str[i] != '$' && str[i] != ' ' && str[i])
 				i++;
 		}
 		else
 		{
-			printf("c\n");
+			printf("begin->%s\n", tmp);
 			tmp = complete(&str[i]);
-			printf("d\n");
+			printf("end->%s\n\n", tmp);
 			while (str[i] != '$' && str[i])
 				i++;
 		}
-		printf("x\n");
-		res = ft_strjoin(res, tmp);
-		printf("ex\n");
+		res = ft_strjoin(res1, tmp);
+		//printf("res-%p\nres1-%p\ntmp-%p\n\n",res,res1,tmp);
+		free(res1);
+		res1 = res;
+		//printf("3-%p\n\n",res1);
 		free(tmp);
 	}
-	free(str);
 	return (res);
 }
 
-void	cpy_withn_qoute(char **neww, const char *src)
+void	cpy_without_qoute(char **neww, const char *src)
 {
 	int		i;
 	char	c;
 	char	*new;
 
-	*neww = new;
+	new = *neww;
 	i = 0;
 	while (src[i])
 	{
@@ -190,7 +200,7 @@ char	*rm_quotes(char *str)
 			i++;
 	}
 	new = malloc(ft_strlen(str) + 1 - cnt);
-	cpy_withn_qoute(&new, str);
+	cpy_without_qoute(&new, str);
 	return (new);
 }
 
@@ -208,9 +218,9 @@ void	check_quote_var(void)
 		{
 			tmp = rm_quotes(g_shell.all[i][j]);
 			//printf("(%p)%s\n(%p)%s\n\n",g_shell.all[i][j], g_shell.all[i][j], tmp, tmp);
-			//free(g_shell.all[i][j]);
+			free(g_shell.all[i][j]);
 			g_shell.all[i][j] = get_varriable(tmp);
-			//free(tmp)
+			free(tmp);
 			j++;
 		}
 		i++;
