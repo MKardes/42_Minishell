@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:58:40 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/07 21:19:17 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/16 22:18:03 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ void	env_add(char *str)
 	i = 0;
 	while (g_shell.env[i])
 		i++;
-	n_env = (char **)malloc(sizeof(char *) * (i + 1));
+	n_env = (char **)malloc(sizeof(char *) * (i + 2));
+	n_env[i + 1] = NULL;
 	j = -1;
 	while (++j < i)
 		n_env[j] = g_shell.env[j];

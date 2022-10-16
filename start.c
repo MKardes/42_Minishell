@@ -6,31 +6,11 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:04:25 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/01 00:31:03 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/16 22:41:28 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-int	denme(void)
-{
-	int pid;
-	int	mpipe[2];
-
-	pipe(mpipe);
-	pid = fork();	
-	if (pid == 0)
-	{
-		dup2(mpipe[1], 1);
-		printf ("Hello:)\n");
-		exit(0);
-	}
-	wait(NULL);
-	char	*buff = malloc(10);
-	read(mpipe[0], buff, 999);
-	printf("(%s)\n",buff);
-	return (0);
-}
+#include "../minishell.h"
 
 void	start1(void)
 {
@@ -82,7 +62,7 @@ void	start(void)
 			close(g_shell.mpipe[1]);
 			exit(0);
         }
-		wait(NULL);
+		wait(0);
 		info_();
 		printf("(%s)\n", g_shell.info);
     }

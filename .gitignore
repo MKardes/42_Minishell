@@ -1,5 +1,11 @@
+.gitignore
 .DS_Store
 *.o
 *.a
 minishell
 .*.sw*
+Makefile
+W_SRC
+W_SRC/start.c
+start.c
+minishell.h
