@@ -45,8 +45,7 @@ int	check_if_exist(char **env, char *str)
 	s = ft_fsplit(str, '=');
 	if (!s)
 		return (0);
-	last = ft_strchr(str, '=');
-	last++;
+	last = ft_strdup(ft_strchr(str, '=') + 1);
 	while (env[i])
 	{
 		var = ft_fsplit(env[i], '=');
@@ -57,12 +56,15 @@ int	check_if_exist(char **env, char *str)
 			g_shell.env[i] = ft_strjoin(tmp, last);
 			free(tmp);
 			free(s);
+			free(var);
+			free(last);
 			return (1);
 		}
 		free(var);
 		i++;
 	}
 	free(s);
+	free(last);
 	return (-1);
 }
 
@@ -83,6 +85,7 @@ void	env_add(char *str)
 	i = -1;
 	free(g_shell.env);
 	g_shell.env = n_env;
+	
 }
 
 void	my_export(void)
@@ -104,7 +107,6 @@ void	my_export(void)
 	while (i < g_shell.in_pipe[g_shell.p])
 	{
 		int	h;
-		
 		h = check_if_exist(g_shell.env, g_shell.all[g_shell.p][i]);
 		if (h == -1)
 		{

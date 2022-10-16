@@ -88,4 +88,5 @@ void	start(void)
     }
 	else
 		start1();
+	
 }
