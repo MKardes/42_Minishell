@@ -17,7 +17,6 @@ int	ft_strstr(const char *s1, const char *s2)
 	int	i;
 
 	i = 0;
-	printf("1-%s-  2-%s-\n",s1, s2);
 	if (!s1 || !s2)
 		return (0);
 	while (s1[i] && s2[i])

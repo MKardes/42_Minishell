@@ -41,12 +41,10 @@ char	*fill_it(char *str)
 	if (!str)
 		return (NULL);
 	var = cut_var(str);
-	printf("_%s",var);
 	i = env_finder(var);
 	free(var);
 	if (i == -1)
 	{
-		printf("\t\t%s\n\t\t[%s]\n",str,var);
 		return (ft_strdup("yok"));
 	}
 	else
@@ -125,17 +123,13 @@ char	*get_varriable(char *str)
 		if (str[i] == '$')
 		{
 			i++;
-			printf("begin->%s\n", tmp);
 			tmp = fill_it(&str[i]);
-			printf("end->%s\n\n", tmp);
 			while (str[i] != '$' && str[i] != ' ' && str[i])
 				i++;
 		}
 		else
 		{
-			printf("begin->%s\n", tmp);
 			tmp = complete(&str[i]);
-			printf("end->%s\n\n", tmp);
 			while (str[i] != '$' && str[i])
 				i++;
 		}

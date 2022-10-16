@@ -109,7 +109,6 @@ void	my_export(void)
 		if (h == -1)
 		{
 			env_add(g_shell.all[g_shell.p][i]);
-			env();
 		}
 		i++;
 	}

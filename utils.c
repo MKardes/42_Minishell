@@ -18,19 +18,16 @@ int	env_finder(char *str)
 	char	*var;
 
 	i = 0;
-	printf("_%s",str);
 	while (g_shell.env[i])
 	{
 		var = ft_fsplit(g_shell.env[i], '=');
 		if (ft_strstr(var, str))
 		{
-			printf("_/%s\\_\n",str);
 			free(var);
 			return (i);
 		}
 		free(var);
 		i++;
 	}
-	printf("_/%s\\_\n",str);
 	return (-1);
 }
