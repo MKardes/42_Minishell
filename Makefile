@@ -14,7 +14,7 @@ $(NAME): $(MLIB) $(LIBS) *.c
 run: $(NAME)
 	./$(NAME)
  
-$(MLIB): libft
+$(MLIB): libft/*.c
 	@make -C libft
 
 clean:
