@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 01:24:24 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/16 22:35:25 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/17 09:51:06 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ char	**get_it_out(char **env, int j, int l)
 	int	i;
 
 	i = 0;
-	printf("[[%d][%d]]\n",i , j);
 	new = (char **)malloc(sizeof(char *) * l);
 	while (i < j)
 	{
@@ -53,7 +52,6 @@ void	my_unset(void)
 		l = 0;
 		while (g_shell.env[l])
 			l++;
-		printf("%d\n",l);
 		j = 0;
 		while (g_shell.env[j])
 		{
