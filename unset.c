@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 01:24:24 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/17 09:51:06 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/19 15:47:09 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ char	**get_it_out(char **env, int j, int l)
 	int	i;
 
 	i = 0;
+	if (!env)
+		return (NULL);
+	printf("(%d)(%d)\n",l, j);
 	new = (char **)malloc(sizeof(char *) * l);
 	while (i < j)
 	{
@@ -25,14 +28,12 @@ char	**get_it_out(char **env, int j, int l)
 		i++;
 	}
 	free(env[i]);
-	if (i < l)
-		i++;
-	while (i < l)
+	while (env[i + 1])
 	{
-		new[i - 1] = env[i];
+		new[i] = env[i + 1];
 		i++;
 	}
-	new[i - 1] = NULL;
+	new[i] = NULL;
 	free(env);
 	return (new);
 }
@@ -44,16 +45,18 @@ void	my_unset(void)
 	int		l;
 	char	*tmp;
 
-	if (!operator_chc())
+	if (!g_shell.env || !operator_chc())
 		return ;
 	i = 1;
 	while (i < g_shell.in_pipe[g_shell.p])
 	{
 		l = 0;
-		while (g_shell.env[l])
+		if (!g_shell.env)
+			break ;
+		while (g_shell.env && g_shell.env[l])
 			l++;
 		j = 0;
-		while (g_shell.env[j])
+		while (g_shell.env && g_shell.env[j])
 		{
 			tmp = ft_fsplit(g_shell.env[j], '=');
 			if (ft_strstr(tmp, g_shell.all[g_shell.p][i]))

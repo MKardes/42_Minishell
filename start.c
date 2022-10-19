@@ -6,11 +6,11 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:04:25 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/16 22:41:28 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/19 11:00:40 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 void	start1(void)
 {

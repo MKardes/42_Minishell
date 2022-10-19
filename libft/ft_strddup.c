@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 21:08:02 by mkardes           #+#    #+#             */
-/*   Updated: 2022/09/22 00:24:25 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/19 15:54:27 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ char	**ft_strddup(char **str)
 	while (str[i])
 		i++;
 	s = (char **)malloc(sizeof(char *) * i + 1);
+	s[i] = NULL;
 	i--;
 	while (i >= 0)
 	{
