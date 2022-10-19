@@ -20,7 +20,11 @@ char	**get_it_out(char **env, int j, int l)
 	i = 0;
 	if (!env)
 		return (NULL);
-	printf("(%d)(%d)\n",l, j);
+	if (l == 1)
+	{
+		free(env);
+		return (NULL);
+	}
 	new = (char **)malloc(sizeof(char *) * l);
 	while (i < j)
 	{

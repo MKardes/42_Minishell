@@ -25,7 +25,7 @@ void	env(void)
 	}
 	It's loced just to check environmental variables
 	*/
-	while (g_shell.env[i])
+	while (g_shell.env && g_shell.env[i])
 	{
 		printf("%s\n", g_shell.env[i]);
 		i++;
@@ -42,6 +42,8 @@ int	check_if_exist(char **env, char *str)
 	int		i;
 	
 	i = 0;
+	if (!env)
+		return (0);
 	s = ft_fsplit(str, '=');
 	if (!s)
 		return (0);
@@ -75,7 +77,7 @@ void	env_add(char *str)
 	int		j;
 
 	i = 0;
-	while (g_shell.env[i])
+	while (g_shell.env && g_shell.env[i])
 		i++;
 	n_env = (char **)malloc(sizeof(char *) * (i + 2));
 	n_env[i + 1] = NULL;
@@ -84,7 +86,8 @@ void	env_add(char *str)
 		n_env[j] = g_shell.env[j];
 	n_env[i] = ft_strdup(str);
 	i = -1;
-	free(g_shell.env);
+	if (g_shell.env)
+		free(g_shell.env);
 	g_shell.env = n_env;
 	
 }
@@ -99,7 +102,7 @@ void	my_export(void)
 	if (!g_shell.all[g_shell.p][1])
 	{
 		i = 0;
-		while (g_shell.env[i])
+		while (g_shell.env && g_shell.env[i])
 		{
 			printf("declare -x %s\n",g_shell.env[i]);
 			i++;
