@@ -6,14 +6,42 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:04:25 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/19 11:00:40 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/23 17:59:26 by ghaciosm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void    path_finder(void)
+{
+    int     i;
+    char    **s;
+    char    *a;
+    char    *c;
+	char	*b;
+
+
+    i = env_finder("PATH");
+    a = ft_strchr(g_shell.env[i], '=');
+    s = ft_split(a + 1, ':');
+    i = 0;
+    while(s[i])
+    {
+        c = ft_strjoin(s[i], "/");
+		b = ft_strjoin(c, g_shell.all[g_shell.p][0]);
+		free(c);
+        if (execve(b, g_shell.all[g_shell.p], g_shell.env) != -1)
+			break;
+		free(b);
+        i++;
+    }
+	exit(0);
+}
+
 void	start1(void)
 {
+	int	pid;
+
 	if (ft_strstr(g_shell.all[g_shell.p][0], "env"))
 		env();
 	else if (ft_strstr(g_shell.all[g_shell.p][0], "export"))
@@ -28,18 +56,14 @@ void	start1(void)
 		my_exit();
 	else if (ft_strstr(g_shell.all[g_shell.p][0], "unset"))
 		my_unset();
-	//execve=
-	//lstat
-	//stat
-	
-	//cd
-	//chdir				chdir		(const char *path)
-	//DIR				*opendir	(const char *name)
-	//struct dirent		*readdir	(DIR *drip)
-	//int				closedir	(DIR *drip)
-	//int				unlink		(const char *path)
-
-	//denme();
+	else
+	{
+		pid = fork();
+		if (pid == 0)
+			path_finder();
+		else
+			wait(NULL);
+	}
 }
 
 void	info_(void)
