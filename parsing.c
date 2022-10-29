@@ -67,17 +67,12 @@ void	check_fill(char *s, int i, int j, int p)
 
 	cnt = 0;
 	a = 0;
-	while (s[j - 1] == ' ')  //neww
-		j--;
 	while (a < j)
 	{
 		while (a < j && s[i + a] == 32)
 			a++;
-		if (s[i + a] == '|' || s[i + a] == '\0')
-		{
-			cnt--;
+		if (a == j)
 			break;
-		}
 		cnt++;
 		while (a < j && s[i + a] != 32)
 		{
@@ -86,6 +81,8 @@ void	check_fill(char *s, int i, int j, int p)
 			else
 				a++;
 		}
+		if (a >= j)
+			break;
 	}
 	g_shell.in_pipe[p] = cnt;
 	if (p == g_shell.p_cnt)
@@ -139,8 +136,10 @@ void	split_pipe(char *s)//					This function splits the string into the piped pa
 		}
 		check_fill(s, i, j, p);
 		p++;
-		if (!s[i + j])//						To break the loop when i + j + 1 not equal to '\0' character
-			i--;
+		if (!s[i + j])
+			break;
+		if (s[i + j] == '|' && !s[i + j + 1])//				"ls |" to not seg fault with that
+			g_shell.all[p] = command__chc(p);
 		i += j + 1;
 		j = 0;
 	}

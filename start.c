@@ -77,11 +77,16 @@ void	finder(void)
 			break;
 		i++;
 	}
+	ft_error(g_shell.all[g_shell.p][0], "command not found");
 	exit(0);
 }
 
 void	command_select(void)
 {
+	int	pid;
+
+	if (command_chc())
+		return ;
 	if (ft_strstr(g_shell.all[g_shell.p][0], "env"))
 		env();
 	else if (ft_strstr(g_shell.all[g_shell.p][0], "export"))
@@ -97,14 +102,27 @@ void	command_select(void)
 	else if (ft_strstr(g_shell.all[g_shell.p][0], "unset"))
 		my_unset();
 	else
-		finder();
+	{
+		if (g_shell.p_cnt == 0)
+		{
+			pid = fork();
+			if (pid == 0)
+				finder();
+			else
+				waitpid(pid, NULL, 0);
+		}
+		else
+			finder();
+	}
 }
 
 void	start(void)
 {
 	int	pid;
 
-	while (g_shell.p <= g_shell.p_cnt)
+	if (g_shell.p_cnt == 0)
+		command_select();
+	while (g_shell.p_cnt != 0 && g_shell.p <= g_shell.p_cnt)
 	{
 		pid = fork();
 		if (pid == 0)

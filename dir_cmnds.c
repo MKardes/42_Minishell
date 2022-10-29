@@ -52,7 +52,8 @@ char	*dir_sign(char *str, char c)
 	else if (c == '~')
 	{
 		ft_strchr(g_shell.env[env_finder("HOME")], '=');
-		dest = ft_strjoin((ft_strchr(g_shell.env[env_finder("HOME")], '=') + 1), str);
+		dest = ft_strjoin((ft_strchr(g_shell.env
+					[env_finder("HOME")], '=') + 1), str);
 		return (dest);
 	}
 	return (NULL);
@@ -63,12 +64,13 @@ void	cd(void)
 	char	*dest;
 	char	*old;
 
-	if ((g_shell.all[g_shell.p][1][0] == '-' && g_shell.all[g_shell.p][1][1] == ' ')
-			|| g_shell.all[g_shell.p][1][0] == '~')
+	if ((g_shell.all[g_shell.p][1][0] == '-' && g_shell.all
+	[g_shell.p][1][1] == ' ') || g_shell.all[g_shell.p][1][0] == '~')
 	{
-		dest = dir_sign((g_shell.all[g_shell.p][1] + 1), g_shell.all[g_shell.p][1][0]);
-	
-	}else if (!operator_chc())
+		dest = dir_sign((g_shell.all[g_shell.p][1] + 1),
+				g_shell.all[g_shell.p][1][0]);
+	}
+	else if (!operator_chc())
 		return ;
 	else
 		dest = ft_strdup(g_shell.all[g_shell.p][1]);

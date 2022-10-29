@@ -91,26 +91,6 @@ static int	strcount(char const *str, char c)
 	}
 	return (count);
 }
-/*
-static void	my_free(char **str, int wrdcnt)
-{
-	int	i;
-	int	a;
-
-	a = 0;
-	i = 0;
-	while (i < wrdcnt)
-	{
-		if ((!str[i][0] || !str[i]) && !a)
-			a = 1;
-		else if (!str[i] || !str[i][0])
-		{
-			printf("a\n");
-			free(str[i]);
-		}
-		i++;
-	}
-}*/
 
 char	**ft_dblsplit(const char *s, char c, char a)
 {
@@ -128,6 +108,5 @@ char	**ft_dblsplit(const char *s, char c, char a)
 	if (!str)
 		return (0);
 	ft_place(str, s, chrs, wrdcnt);
-	//my_free(str, wrdcnt + 1);
 	return (str);
 }

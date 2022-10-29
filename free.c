@@ -6,28 +6,11 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 10:56:25 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/29 15:53:52 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/29 20:59:33 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	operator_chc(void)
-{
-	int	i;
-
-	i = 1;
-	while (i < g_shell.in_pipe[g_shell.p])
-	{
-		if (g_shell.all[g_shell.p][i][0] == '-')
-		{
-			ft_error(g_shell.all[g_shell.p][0], "Undefined option");
-			return (0);
-		}
-		i++;
-	}
-	return (1);
-}
 
 void	myfree(void)
 {
@@ -43,12 +26,14 @@ void	myfree(void)
 			free(g_shell.all[i][j]);
 			j++;
 		}
-		free(g_shell.mpipe[i]);
 		free(g_shell.all[i]);
 		i++;
 	}
+	i = -1;
+	while(g_shell.mpipe[++i])
+		free(g_shell.mpipe[i]);
+	free(g_shell.mpipe[i]);
 	free(g_shell.mpipe);
-	//g_shell.info = ft_calloc(ft_strlen(g_shell.info), 1);
 	free(g_shell.in_pipe);
 	free(g_shell.all);
 	g_shell.p_cnt = 0;
@@ -61,9 +46,4 @@ void	my_exit(void)
 	if (g_shell.all[g_shell.p][1])
 		exit(ft_atoi(g_shell.all[g_shell.p][1]) % 256);
 	exit(0);
-}
-
-void	ft_error(char *command, char *msg)
-{
-	printf("%s: %s\n",command, msg);
 }

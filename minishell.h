@@ -61,6 +61,8 @@ void	my_unset(void);
 void	ft_error(char *command, char *msg);
 int		operator_chc(void);
 int		env_finder(char *str);
+int		command_chc(void);
+char	**command__chc(int p);
 void	env_add(char *str);
 void	check_quote_var(void);
 void	check_func(char *s, int i, int *a, int j);
