@@ -35,18 +35,18 @@ char	**arg_add(char **arg, char *str)
 
 void	get_output(void)
 {
-	printf("ab\n");
 	if (g_shell.p != g_shell.p_cnt)
 	{
 		dup2(g_shell.mpipe[g_shell.p][1], 1);
 		close(g_shell.mpipe[g_shell.p][1]);
+		close(g_shell.mpipe[g_shell.p][0]);
 	}
 	if (g_shell.p != 0)
 	{
 		dup2(g_shell.mpipe[g_shell.p - 1][0], 0);
 		close(g_shell.mpipe[g_shell.p - 1][0]);
+		close(g_shell.mpipe[g_shell.p - 1][1]);
 	}
-	printf("aa\n");
 }
 
 void	finder(void)
@@ -97,18 +97,7 @@ void	command_select(void)
 	else if (ft_strstr(g_shell.all[g_shell.p][0], "unset"))
 		my_unset();
 	else
-	{
-		int	pid;
-
-		pid = fork();
-		if (pid == 0)
-			finder();
-		else
-		{
-			//close(g_shell.pipes[g_shell.p - 1 % 2][0]);
-			wait(&pid);
-		}
-	}
+		finder();
 }
 
 void	start(void)
@@ -117,7 +106,6 @@ void	start(void)
 
 	while (g_shell.p <= g_shell.p_cnt)
 	{
-		printf("bb\n");
 		pid = fork();
 		if (pid == 0)
 		{
@@ -128,11 +116,10 @@ void	start(void)
 		else
 		{
 			if (g_shell.p != 0)
-			{
 				close(g_shell.mpipe[g_shell.p - 1][0]);
+			if (g_shell.p != g_shell.p_cnt)
 				close(g_shell.mpipe[g_shell.p][1]);
-			}
-			wait(&pid);
+			waitpid(pid, NULL, 0);
 		}
 		g_shell.p++;
 	}

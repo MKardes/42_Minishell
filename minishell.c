@@ -37,7 +37,6 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	if (ac != 1)
 		return (0);
-	i = 0;
 	g_shell.env = ft_strddup(env);
 	g_shell.info = malloc(10000);
 	g_shell.p_cnt = 0;
@@ -63,6 +62,7 @@ int	main(int ac, char **av, char **env)
 		add_history(g_shell.line);
 		parsing();
 		g_shell.mpipe = (int **)malloc(sizeof(int*) * g_shell.p_cnt);
+		i = 0;
 		while (i < g_shell.p_cnt)
 		{
 			g_shell.mpipe[i] = (int *)malloc(sizeof(int) * 2);
