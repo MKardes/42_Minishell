@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 01:24:24 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/19 15:47:09 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/26 19:05:22 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ void	my_unset(void)
 		{
 			tmp = ft_fsplit(g_shell.env[j], '=');
 			if (ft_strstr(tmp, g_shell.all[g_shell.p][i]))
+			{
 				g_shell.env = get_it_out(g_shell.env, j, l);
+				break;
+			}
 			free(tmp);
 			j++;
 		}

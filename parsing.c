@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:21:43 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/08 00:07:25 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/24 22:58:40 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	partition(int p, int i, int j, int cnt)
 	int		z;
 	int		tmp;
 
-	g_shell.all[p] = (char **)malloc(sizeof(char *) * cnt);
+	g_shell.all[p] = (char **)malloc(sizeof(char *) * (cnt + 1));
+	g_shell.all[p][cnt] = NULL;
 	s = g_shell.line;
 	a = 0;
 	tmp = i;
@@ -66,6 +67,8 @@ void	check_fill(char *s, int i, int j, int p)
 
 	cnt = 0;
 	a = 0;
+	while (s[j - 1] == ' ')  //neww
+		j--;
 	while (a < j)
 	{
 		while (a < j && s[i + a] == 32)

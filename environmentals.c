@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:58:40 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/16 22:18:03 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/24 20:41:00 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,12 @@ void	env(void)
 	int	i;
 
 	i = 0;
-	/*
+	
 	if (g_shell.in_pipe[g_shell.p] != 1)
 	{
-		ft_error("env", "Undifened option or argument");
+		ft_error("env", "Undefined option or argument");
 		return ;
 	}
-	It's loced just to check environmental variables
-	*/
 	while (g_shell.env && g_shell.env[i])
 	{
 		printf("%s\n", g_shell.env[i]);

@@ -6,91 +6,134 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:04:25 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/23 17:59:26 by ghaciosm         ###   ########.fr       */
+/*   Updated: 2022/10/26 19:41:53 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    path_finder(void)
+t_shell g_shell;
+
+char	**arg_add(char **arg, char *str)
 {
-    int     i;
-    char    **s;
-    char    *a;
-    char    *c;
-	char	*b;
+	char	**new;
+	int	i;
 
+	i = 0;
+	while (arg[i])
+		i++;
+	new = malloc(sizeof(char *) * (i + 2));
+	new[i + 1] = NULL;
+	i = 0;
+	while (arg[i])
+	{
+		new[i] = arg[i];
+		i++;
+	}
+	new[i] = str;
+	free (arg);
+	return (new);
+}	
 
-    i = env_finder("PATH");
-    a = ft_strchr(g_shell.env[i], '=');
-    s = ft_split(a + 1, ':');
-    i = 0;
-    while(s[i])
-    {
-        c = ft_strjoin(s[i], "/");
-		b = ft_strjoin(c, g_shell.all[g_shell.p][0]);
-		free(c);
-        if (execve(b, g_shell.all[g_shell.p], g_shell.env) != -1)
+void	get_output(void)
+{
+	dup2(g_shell.pipes[g_shell.p % 2][1], 1);
+	close(g_shell.pipes[g_shell.p % 2][1]);
+	close(g_shell.pipes[g_shell.p % 2][1]);
+}
+
+void	finder(void)
+{
+	int	i;
+	char	*tmp;
+	char	*a;
+	char	**s;
+
+	i = env_finder("PATH");
+	tmp = ft_strchr(g_shell.env[i], '=');
+	a = ft_strdup(tmp + 1);
+	s = ft_split(a, ':');
+	free(a);
+	i = 0;
+/*	if (g_shell.p != 0)
+	{
+		dup2(g_shell.pipes[g_shell.p - 1 % 2][0], 0);
+		close(g_shell.pipes[g_shell.p - 1 % 2][0]);
+		close(g_shell.pipes[g_shell.p - 1 % 2][1]);		
+	}*/
+	while (s[i])
+	{
+		tmp = ft_strjoin(s[i], "/");
+		free(s[i]);
+		s[i] = ft_strjoin(tmp, g_shell.all[g_shell.p][0]);
+		free(tmp);
+		i++;
+	}
+	i = 0;
+	while (s[i])
+	{
+		if (execve(s[i], g_shell.all[g_shell.p], g_shell.env) != -1)
 			break;
-		free(b);
-        i++;
-    }
+		i++;
+	}
 	exit(0);
 }
 
-void	start1(void)
+void	command_select(void)
 {
-	int	pid;
-
 	if (ft_strstr(g_shell.all[g_shell.p][0], "env"))
 		env();
 	else if (ft_strstr(g_shell.all[g_shell.p][0], "export"))
-        my_export();
+		my_export();
 	else if (ft_strstr(g_shell.all[g_shell.p][0], "echo"))
 		echo();
 	else if (ft_strstr(g_shell.all[g_shell.p][0], "cd"))
 		cd();
 	else if (ft_strstr(g_shell.all[g_shell.p][0], "pwd"))
-        pwd();
+		pwd();
 	else if (ft_strstr(g_shell.all[g_shell.p][0], "exit"))
 		my_exit();
 	else if (ft_strstr(g_shell.all[g_shell.p][0], "unset"))
 		my_unset();
 	else
 	{
+		int	pid;
+
 		pid = fork();
 		if (pid == 0)
-			path_finder();
+			finder();
 		else
-			wait(NULL);
+		{
+			//close(g_shell.pipes[g_shell.p - 1 % 2][0]);
+			wait(&pid);
+		}
 	}
-}
-
-void	info_(void)
-{
-	read(g_shell.mpipe[0], g_shell.info, 10000);
 }
 
 void	start(void)
 {
+/*
 	int	pid;
 
-	if (g_shell.all[g_shell.p + 1] != NULL && g_shell.all[g_shell.p][0][0] == 'p')
-    {
-        pid = fork();
-        if (pid == 0)
-        {
-            dup2(g_shell.mpipe[1], 1);
-			close(g_shell.mpipe[0]);
-			start1();
-			close(g_shell.mpipe[1]);
+	while (g_shell.p != g_shell.p_cnt)
+	{
+		pid = fork();
+		if (pid == 0)
+		{
+			get_output();
+			command_select();
 			exit(0);
-        }
-		wait(0);
-		info_();
-		printf("(%s)\n", g_shell.info);
-    }
-	else
-		start1();
-	
+		}
+		else
+		{
+			if (g_shell.p != 0)
+			{
+				close(g_shell.pipes[g_shell.p - 1 % 2][0]);
+				close(g_shell.pipes[g_shell.p - 1 % 2][1]);
+			}
+			wait(&pid);
+		}
+		g_shell.p++;
+	}*/
+	command_select();
 }

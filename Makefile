@@ -1,20 +1,19 @@
-NAME = minishell
+NAME_W = minishell.exe
 MLIB = libft/libft.a
-LIBS = readline/lib
-INCLUDES = readline/include
 RL = -lreadline
 GFLAGS = -Wall -Werror -Wextra
+SRCS = dir_cmnds.c echo.c environmentals.c free.c minishell.c parsing.c parsing2.c printer.c unset.c utils.c start.c
 
-all: $(NAME)
+all: $(NAME_W)
 
-$(NAME): $(MLIB) $(LIBS) *.c
-	@gcc *.c $(MLIB) -L $(LIBS) -I $(INCLUDES) $(RL) -o $(NAME)
+run: $(NAME_W)
+	./$(NAME_W)
+
+$(NAME_W): $(MLIB) $(SRCS)
+	@gcc $(SRCS) $(MLIB) $(RL) -o $(NAME_W)
 	@echo "Compiling Done"
-
-run: $(NAME)
-	./$(NAME)
  
-$(MLIB): libft/*.c
+$(MLIB): libft
 	@make -C libft
 
 clean:
@@ -22,7 +21,7 @@ clean:
 
 fclean: clean
 	make fclean -C libft
-	rm -rf minishell
+	rm -rf minishell.exe minishell
 
 re: fclean all
 

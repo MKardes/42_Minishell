@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:49:10 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/12 12:53:11 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/22 20:52:32 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*fill_it(char *str)
 	free(var);
 	if (i == -1)
 	{
-		return (ft_strdup("yok"));
+		return (ft_strdup(""));
 	}
 	else
 	{
