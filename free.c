@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 10:56:25 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/02 17:06:37 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/29 15:53:52 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,11 @@ void	myfree(void)
 			free(g_shell.all[i][j]);
 			j++;
 		}
+		free(g_shell.mpipe[i]);
 		free(g_shell.all[i]);
 		i++;
 	}
+	free(g_shell.mpipe);
 	//g_shell.info = ft_calloc(ft_strlen(g_shell.info), 1);
 	free(g_shell.in_pipe);
 	free(g_shell.all);

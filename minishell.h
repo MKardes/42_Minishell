@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:25:40 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/26 18:34:43 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/29 14:40:10 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ typedef struct m_shell {
 	int		*in_pipe;	//The count of words in every pipes: in_pipe[0] = the word count in the first pipe
 	int		type;
 	int		p;
-	int		**pipes;	//*pipes[0] read   --   *pipes[1] write
+	int		**mpipe;	//*pipes[0] read   --   *pipes[1] write
 	char	*info;
 }	t_shell;
 
-extern t_shell	g_shell;
+t_shell	g_shell;
 
 void	printer(void);
 void	partition(int p, int i, int j, int c);

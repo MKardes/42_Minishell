@@ -6,13 +6,11 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:04:25 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/26 19:41:53 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/29 15:43:10 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_shell g_shell;
 
 char	**arg_add(char **arg, char *str)
 {
@@ -37,9 +35,18 @@ char	**arg_add(char **arg, char *str)
 
 void	get_output(void)
 {
-	dup2(g_shell.pipes[g_shell.p % 2][1], 1);
-	close(g_shell.pipes[g_shell.p % 2][1]);
-	close(g_shell.pipes[g_shell.p % 2][1]);
+	printf("ab\n");
+	if (g_shell.p != g_shell.p_cnt)
+	{
+		dup2(g_shell.mpipe[g_shell.p][1], 1);
+		close(g_shell.mpipe[g_shell.p][1]);
+	}
+	if (g_shell.p != 0)
+	{
+		dup2(g_shell.mpipe[g_shell.p - 1][0], 0);
+		close(g_shell.mpipe[g_shell.p - 1][0]);
+	}
+	printf("aa\n");
 }
 
 void	finder(void)
@@ -55,12 +62,6 @@ void	finder(void)
 	s = ft_split(a, ':');
 	free(a);
 	i = 0;
-/*	if (g_shell.p != 0)
-	{
-		dup2(g_shell.pipes[g_shell.p - 1 % 2][0], 0);
-		close(g_shell.pipes[g_shell.p - 1 % 2][0]);
-		close(g_shell.pipes[g_shell.p - 1 % 2][1]);		
-	}*/
 	while (s[i])
 	{
 		tmp = ft_strjoin(s[i], "/");
@@ -112,11 +113,11 @@ void	command_select(void)
 
 void	start(void)
 {
-/*
 	int	pid;
 
-	while (g_shell.p != g_shell.p_cnt)
+	while (g_shell.p <= g_shell.p_cnt)
 	{
+		printf("bb\n");
 		pid = fork();
 		if (pid == 0)
 		{
@@ -128,12 +129,11 @@ void	start(void)
 		{
 			if (g_shell.p != 0)
 			{
-				close(g_shell.pipes[g_shell.p - 1 % 2][0]);
-				close(g_shell.pipes[g_shell.p - 1 % 2][1]);
+				close(g_shell.mpipe[g_shell.p - 1][0]);
+				close(g_shell.mpipe[g_shell.p][1]);
 			}
 			wait(&pid);
 		}
 		g_shell.p++;
-	}*/
-	command_select();
+	}
 }

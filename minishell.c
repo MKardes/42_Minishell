@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:21:43 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/26 18:35:33 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/29 15:55:10 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,16 @@ int	main(int ac, char **av, char **env)
 {
 	char	*name;
 	char	*s;
+	int		i;
 
 	(void)av;
 	if (ac != 1)
 		return (0);
-	g_shell.pipes = (int **)malloc(sizeof(int *) * 2);
-	g_shell.pipes[0] = (int *)malloc(sizeof(int) * 2);
-	g_shell.pipes[1] = (int *)malloc(sizeof(int) * 2);
+	i = 0;
 	g_shell.env = ft_strddup(env);
 	g_shell.info = malloc(10000);
 	g_shell.p_cnt = 0;
 	g_shell.prompt = ft_strdup("<\033[0;92m Shell\033[0;39m > ");
-	pipe(g_shell.pipes[0]);
-	pipe(g_shell.pipes[1]);
 	signal(SIGINT, sig_int);
 	minishell_put();
 	while (1)
@@ -65,6 +62,13 @@ int	main(int ac, char **av, char **env)
             continue ;
 		add_history(g_shell.line);
 		parsing();
+		g_shell.mpipe = (int **)malloc(sizeof(int*) * g_shell.p_cnt);
+		while (i < g_shell.p_cnt)
+		{
+			g_shell.mpipe[i] = (int *)malloc(sizeof(int) * 2);
+			pipe(g_shell.mpipe[i]);
+			i++;
+		}
 		start();
 		myfree();
 	}
