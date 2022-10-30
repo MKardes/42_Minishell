@@ -13,6 +13,13 @@
 #include "libft.h"
 #include <stdio.h>
 
+void	rest_ft_word(int *a, int *i, char *str)
+{
+	str[0] = '$';
+	(*i)++;
+	*a = 1;
+}
+
 static char	*ft_word(char *str, const char *s1, t_chars ch)
 {
 	int	son;
@@ -25,11 +32,7 @@ static char	*ft_word(char *str, const char *s1, t_chars ch)
 	i = 0;
 	a = 0;
 	if (ch.first == '$')
-	{
-		str[0] = '$';
-		i++;
-		a = 1;
-	}
+		rest_ft_word(&a, &i, str);
 	else
 	{
 		str[wordlen] = ' ';

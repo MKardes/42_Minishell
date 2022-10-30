@@ -59,7 +59,9 @@ void	finder(void)
 	i = env_finder("PATH");
 	tmp = ft_strchr(g_shell.env[i], '=');
 	a = ft_strdup(tmp + 1);
-	s = ft_split(a, ':');
+	tmp = ft_strjoin(a, ":./");
+	s = ft_split(tmp, ':');
+	free(tmp);
 	free(a);
 	i = 0;
 	while (s[i])
@@ -78,12 +80,13 @@ void	finder(void)
 		i++;
 	}
 	ft_error(g_shell.all[g_shell.p][0], "command not found");
-	exit(0);
+	exit(-1);
 }
 
 void	command_select(void)
 {
 	int	pid;
+	int	a = 0;
 
 	if (command_chc())
 		return ;
@@ -109,7 +112,10 @@ void	command_select(void)
 			if (pid == 0)
 				finder();
 			else
-				waitpid(pid, NULL, 0);
+			{
+				waitpid(pid, &a, 0);
+				printf(".\t%d\t.\n",a / 256);
+			}
 		}
 		else
 			finder();
@@ -137,7 +143,8 @@ void	start(void)
 				close(g_shell.mpipe[g_shell.p - 1][0]);
 			if (g_shell.p != g_shell.p_cnt)
 				close(g_shell.mpipe[g_shell.p][1]);
-			waitpid(pid, NULL, 0);
+			waitpid(pid, &g_shell.exit_status, 0);
+			printf(".\t%d\t.\n",g_shell.exit_status);
 		}
 		g_shell.p++;
 	}

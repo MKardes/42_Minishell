@@ -39,6 +39,7 @@ int	main(int ac, char **av, char **env)
 		return (0);
 	g_shell.env = ft_strddup(env);
 	g_shell.p_cnt = 0;
+	g_shell.exit_status = 0;
 	g_shell.prompt = ft_strdup("<\033[0;92m Shell\033[0;39m > ");
 	signal(SIGINT, sig_int);
 	minishell_put();

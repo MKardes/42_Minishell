@@ -2,7 +2,11 @@
 
 void	printer(void)
 {
-	int a = 0, b, c;
+    int a;
+    int b;
+    int c;
+
+    a = 0;
     printf("p_cnt: %d\n", g_shell.p_cnt);
     while (a <= g_shell.p_cnt)
     {

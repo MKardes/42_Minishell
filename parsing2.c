@@ -45,6 +45,8 @@ char	*fill_it(char *str)
 	free(var);
 	if (i == -1)
 	{
+		if (str[0] == '?' && !str[1])
+			return (ft_itoa(g_shell.exit_status));
 		return (ft_strdup(""));
 	}
 	else
@@ -54,39 +56,6 @@ char	*fill_it(char *str)
 		return (res);
 	}
 }
-/*
-void	get_var(char **str)
-{
-	int		i;
-	char	*res;
-	char	*tmp;
-	char	**var;
-	int		*space;
-	
-	i = 0;
-	res = ft_strdup("");
-	space = f_space(*str);
-	var = ft_dblsplit(*str, ' ', '$');
-	while (var[i])
-	{
-		printf("aa[%s]\n", var[i]);
-		tmp = fill_it(var[i]);
-		if (tmp)
-		{
-			printf("a -[%s]",tmp);
-			if (tmp[ft_strlen(tmp) - 1] == ' ')
-				tmp = ft_spacejoin(tmp, space[i]);
-			printf(" [%s]- b\n",tmp);
-			res = ft_strjoin(res, tmp);
-			printf("c\n");
-			free(tmp);
-		}
-		i++;
-	}
-	free(var);
-	free(*str);
-	*str = res;
-}*/
 
 char	*complete(char *str)
 {
@@ -211,7 +180,6 @@ void	check_quote_var(void)
 		while (j < g_shell.in_pipe[i])
 		{
 			tmp = rm_quotes(g_shell.all[i][j]);
-			//printf("(%p)%s\n(%p)%s\n\n",g_shell.all[i][j], g_shell.all[i][j], tmp, tmp);
 			free(g_shell.all[i][j]);
 			g_shell.all[i][j] = get_varriable(tmp);
 			free(tmp);

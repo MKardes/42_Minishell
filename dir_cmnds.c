@@ -19,7 +19,9 @@ void	ch_wd(char *old, char *dest)
 	char	*wd;
 	char	*tmp;
 
-	wd = getcwd(NULL, 1024);
+	wd = ft_calloc(1024, 1);
+	getcwd(wd, 1024);
+	printf("[%s]\n",wd);
 	i = env_finder("PWD");
 	j = env_finder("OLDPWD");
 	if (j == -1)
@@ -36,7 +38,7 @@ void	ch_wd(char *old, char *dest)
 	free(g_shell.env[i]);
 	g_shell.env[i] = ft_strjoin("PWD=", wd);
 	free(old);
-	free(wd);
+	//free(wd);
 }
 
 char	*dir_sign(char *str, char c)

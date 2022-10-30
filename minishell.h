@@ -33,6 +33,7 @@ typedef struct m_shell {
 	char	*prompt;
 	int		p_cnt;		//Pipe counts   { echo "Mini" Shell | tr '\n' 'E' | cat > text.txt }  p_cnt = 2 
 	int		*in_pipe;	//The count of words in every pipes: in_pipe[0] = the word count in the first pipe
+	int		exit_status;
 	int		type;
 	int		p;
 	int		**mpipe;	//*pipes[0] read   --   *pipes[1] write
