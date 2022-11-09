@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 17:54:01 by mkardes           #+#    #+#             */
-/*   Updated: 2022/11/09 10:20:15 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/11/09 17:39:42 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ char	**redirector_clear(int cur)
 		}
 		if (ft_strstr(s, "<") || ft_strstr(s, ">") || ft_strstr(s, "<<") || ft_strstr(s, ">>"))
 			chc = 1;
-		if (last_char())
+		//if (last_char())
 	}
 	g_shell.in_pipe[cur] = cnt;
 	return (tmp);

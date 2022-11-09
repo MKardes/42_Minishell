@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:21:43 by mkardes           #+#    #+#             */
-/*   Updated: 2022/11/08 22:38:48 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/11/09 20:41:15 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,17 @@ void	partition(int p, int i, int j, int cnt)
 			if ((s[i] == '\"') || (s[i] == '\''))
 				partition_func(s, &i, tmp, j);
 			else
+			{/*
+				if (s[i] == '<' || s[i] == '>')
+				{
+					i++;
+					if (s[i] == '<' || s[i] == '>')
+						i++;
+					i++;
+					break;
+				}*/
 				i++;
+			}
 		}
 		z = i - z;
 		if (g_shell.in_pipe[p] != a)
@@ -79,11 +89,29 @@ void	check_fill(char *s, int i, int j, int p)
 			if (s[i + a] == '\"' || s[i + a] == '\'')
 				check_func(s, i, &a, j);
 			else
+			{
+				/*
+				if (ft_strchr("<>", s[i + a]))
+				{
+					cnt++;
+					if (s[i + a + 1] == '<' || s[i + a + 1] == '>')
+					{
+						if (!s[i + a + 2])
+							cnt--;
+						a++;
+					}
+					else if (!s[i + a + 1])
+						cnt--;
+					a++;
+					break;
+				}*/
 				a++;
+			}
 		}
 		if (a >= j)
 			break;
 	}
+	printf("cnt: %d\n",cnt);
 	g_shell.in_pipe[p] = cnt;
 	if (p == g_shell.p_cnt)
 		g_shell.in_pipe[p] = cnt;
@@ -153,11 +181,54 @@ void	pass(char *s, int *i, char c)
 	(*i)++;
 }
 
+char	*add_space(char *s)
+{
+	char	*res;
+	int	i;
+	int	a;
+	
+	res = (char *)ft_calloc(ft_strlen(s) * 2, 1);
+	i = 0;
+	a = 0;
+	while (s[i])
+	{
+		if (s[i] == '<' || s[i] == '>')
+		{
+			if (s[i + 1] == '<' || s[i + 1] == '>')
+			{
+				res[i + a] = ' ';
+				a++;
+				res[i + a] = s[i];
+				i++;
+				res[i + a] = s[i];
+				i++;
+				res[i + a] = ' ';
+				a++;
+			}
+			else
+			{
+				res[i + a] = ' ';
+				a++;
+				res[i + a] = s[i];
+				i++;
+				res[i + a] = ' ';
+				a++;
+			}
+
+		}
+		res[i + a] = s[i];
+		i++;
+	}
+	free(s);
+	return (res);
+}
+
 void	parsing(void)
 {
 	char	*s;
 	int		i;
 
+	g_shell.line = add_space(g_shell.line);
 	s = g_shell.line;
 	i = 0;
 	while (s[i])
@@ -174,5 +245,6 @@ void	parsing(void)
 	g_shell.red_type = (char *)ft_calloc(1, (g_shell.p_cnt + 2));
 	split_pipe(s);
 	check_quote_var();
-	redirections();
+	printer();
+	//redirections();
 }
