@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:49:10 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/22 20:52:32 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/11/08 19:31:57 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ void	check_quote_var(void)
 			free(tmp);
 			j++;
 		}
+		g_shell.redirectors[i] = ft_strdup("");
 		i++;
 	}
 }

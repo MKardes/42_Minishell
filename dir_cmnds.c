@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 09:45:09 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/02 17:19:36 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/30 19:54:55 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ void	ch_wd(char *old, char *dest)
 	char	*wd;
 	char	*tmp;
 
-	wd = ft_calloc(1024, 1);
-	getcwd(wd, 1024);
-	printf("[%s]\n",wd);
+	wd = getcwd(NULL, 1024);
 	i = env_finder("PWD");
 	j = env_finder("OLDPWD");
 	if (j == -1)
@@ -38,7 +36,7 @@ void	ch_wd(char *old, char *dest)
 	free(g_shell.env[i]);
 	g_shell.env[i] = ft_strjoin("PWD=", wd);
 	free(old);
-	//free(wd);
+	free(wd);
 }
 
 char	*dir_sign(char *str, char c)

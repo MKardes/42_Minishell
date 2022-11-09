@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:21:43 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/24 22:58:40 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/11/08 22:38:48 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,9 @@ void	parsing(void)
 	}
 	g_shell.all = (char ***)malloc(sizeof(char **) * (g_shell.p_cnt + 1));
 	g_shell.in_pipe = (int *)malloc(sizeof(int) * (g_shell.p_cnt + 1));
+	g_shell.redirectors = (char **)ft_calloc(sizeof(char *), (g_shell.p_cnt + 1));
+	g_shell.red_type = (char *)ft_calloc(1, (g_shell.p_cnt + 2));
 	split_pipe(s);
 	check_quote_var();
+	redirections();
 }

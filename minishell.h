@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:25:40 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/29 14:40:10 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/11/08 20:37:38 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,16 @@ typedef struct m_shell {
 	char	*prompt;
 	int		p_cnt;		//Pipe counts   { echo "Mini" Shell | tr '\n' 'E' | cat > text.txt }  p_cnt = 2 
 	int		*in_pipe;	//The count of words in every pipes: in_pipe[0] = the word count in the first pipe
-	int		exit_status;
 	int		type;
 	int		p;
 	int		**mpipe;	//*pipes[0] read   --   *pipes[1] write
+	int		exit_status;
 	char	*info;
+	char	**redirectors;
+	char	*red_type;
 }	t_shell;
 
-t_shell	g_shell;
+extern t_shell	g_shell;
 
 void	printer(void);
 void	partition(int p, int i, int j, int c);
@@ -68,5 +70,6 @@ void	env_add(char *str);
 void	check_quote_var(void);
 void	check_func(char *s, int i, int *a, int j);
 void	partition_func(char	*s, int *i, int tmp, int j);
+void	redirections(void);
 
 #endif

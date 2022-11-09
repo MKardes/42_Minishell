@@ -6,11 +6,13 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:04:25 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/29 15:43:10 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/10/30 19:55:22 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_shell g_shell;
 
 char	**arg_add(char **arg, char *str)
 {
@@ -80,13 +82,12 @@ void	finder(void)
 		i++;
 	}
 	ft_error(g_shell.all[g_shell.p][0], "command not found");
-	exit(-1);
+	exit(0);
 }
 
 void	command_select(void)
 {
 	int	pid;
-	int	a = 0;
 
 	if (command_chc())
 		return ;
@@ -112,10 +113,8 @@ void	command_select(void)
 			if (pid == 0)
 				finder();
 			else
-			{
-				waitpid(pid, &a, 0);
-				printf(".\t%d\t.\n",a / 256);
-			}
+				waitpid(pid, &g_shell.exit_status, 0);
+			g_shell.exit_status /= 256;
 		}
 		else
 			finder();
@@ -144,7 +143,7 @@ void	start(void)
 			if (g_shell.p != g_shell.p_cnt)
 				close(g_shell.mpipe[g_shell.p][1]);
 			waitpid(pid, &g_shell.exit_status, 0);
-			printf(".\t%d\t.\n",g_shell.exit_status);
+			g_shell.exit_status /= 256;
 		}
 		g_shell.p++;
 	}
