@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:25:40 by mkardes           #+#    #+#             */
-/*   Updated: 2022/11/08 20:37:38 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/11/11 11:51:51 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,8 @@ typedef struct m_shell {
 	int		p;
 	int		**mpipe;	//*pipes[0] read   --   *pipes[1] write
 	int		exit_status;
-	char	*info;
-	char	**redirectors;
-	char	*red_type;
+	int		*save_fd;
+	int		*heredocpipe;
 }	t_shell;
 
 extern t_shell	g_shell;
@@ -71,5 +70,9 @@ void	check_quote_var(void);
 void	check_func(char *s, int i, int *a, int j);
 void	partition_func(char	*s, int *i, int tmp, int j);
 void	redirections(void);
+void	save_std_fds(void);
+void	restore_std_fds(void);
+void	heredoc(void);
+void	heredoc_fill(void);
 
 #endif

@@ -6,144 +6,143 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 17:54:01 by mkardes           #+#    #+#             */
-/*   Updated: 2022/11/09 17:39:42 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/11/11 11:53:07 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	arg_count(char *s, int *chc, int cur)
+void	save_std_fds()
 {
-	int	i;
-	int	res;
-	
-	i = 0;
-	res = 0;
-	while (s[i])
-	{
-		if (*chc == 1 || *chc == 2)
-		{
-			if (g_shell.redirectors[cur])
-			{
-				free(g_shell.redirectors[cur]);
-				g_shell.redirectors[cur] = NULL;
-			}
-			g_shell.red_type[cur] = *chc + 48;
-			g_shell.redirectors[cur] = ft_fsplit(&s[i], '>');
-			if (!g_shell.redirectors[cur])
-				g_shell.redirectors[cur] = ft_fsplit(&s[i], '<');
-			if (!g_shell.redirectors[cur])
-				g_shell.redirectors[cur] = ft_strdup(&s[i]);
-			*chc = 0;
-		}
-		if (s[i] == '<' || s[i] == '>')
-		{
-			if (s[i] == '>')
-			{
-				if (s[i + 1] == '>')
-					*chc = 1;
-				else
-					*chc = 2;
-			}
-			if ((s[i] == '<' && s[i + 1] == '<')
-				|| (s[i] == '>' && s[i + 1] == '>'))
-			{
-				i+=2;
-				res -= 1;
-			}
-			else
-			{
-				i++;
-				res -= 1;
-			}
-		}
-		else
-		{
-			while(s[i] && s[i] != '>' && s[i] != '<')
-				i++;
-			res++;
-		}
-	}
-	return res;
+	g_shell.save_fd[0] = dup(STDIN_FILENO);
+	g_shell.save_fd[1] = dup(STDOUT_FILENO);
 }
 
-int	subtracted_cnt(int cur)
+void	restore_std_fds()
 {
-	int	i;
-	int	res;
-	int	chc;
-	int	j;
-
-	i = 0;
-	res = 0;
-	chc = 0;
-	while (i < g_shell.in_pipe[cur])
-	{
-		res+=arg_count(g_shell.all[cur][i], &chc, cur);
-		i++;
-	}
-	return res;
+	dup2(g_shell.save_fd[0], STDIN_FILENO);
+	close(g_shell.save_fd[0]);
+	dup2(g_shell.save_fd[1], STDOUT_FILENO);
+	close(g_shell.save_fd[1]);
 }
 
-char	last_char(char *s)
+void	writable(char *file_name, int flag)
 {
-	int	i;
+	int	fd;
 
+	fd = open(file_name, flag, 0777);
+	if (fd == -1)
+	{
+		ft_putendl_fd("not open fd", 2);
+		return ;
+	}
+	dup2(fd, 1);
+	close(fd);
+}
+
+void	readable(char *file_name)
+{
+	int	fd;
+
+	fd = open(file_name, O_RDONLY | O_CREAT, 0777);
+	if (fd == -1)
+	{
+		ft_putendl_fd("not open fd", 2);
+		return ;
+	}
+	dup2(fd, 0);
+	close(fd);
+}
+
+int	execute_redirect(char *file_name, char *str)
+{
+	if (ft_strstr(">", str))
+		writable(file_name, O_WRONLY | O_CREAT | O_TRUNC);
+	else if (ft_strstr("<", str))
+		readable(file_name);
+	else if (ft_strstr(">>", str))
+		writable(file_name, O_WRONLY | O_CREAT | O_APPEND);
+	else if (ft_strstr("<<", str))
+	{
+		heredoc();
+		return (0);
+	}
+	return (1);
+}
+
+int	new_len(char **res, char **s)
+{
+	int	len;
+	int	i;
+	int	a;
+	char	*tmp;
+
+	tmp = ft_calloc(256, 1);
+	len = 0;
+	a = 0;
 	i = 0;
 	while (s[i])
 	{
-		if (s[i + 1] == '\0')
-			return (s[i]);
+		if (ft_strstr(s[i], ">") || (ft_strstr(s[i], ">>") ||
+			ft_strstr(s[i], "<") || ft_strstr(s[i], "<<")))
+		{
+			len--;
+			tmp[a] = (char)i;
+			tmp[a + 1] = (char)(i + 1);
+			a += 2;
+			i++;	
+		}
+		len++;
 		i++;
 	}
-	return (0);
+	*res = tmp;
+	return (len);
 }
 
-char	**redirector_clear(int cur)
+char	**cut_redirects(char **s)
 {
+	char	**res;
+	char	*tmp;
+	int	len;
 	int	i;
-	int	cnt;
-	int	chc;
-	char	**tmp;
-	char	*s;
+	int	a;
 
-	i = 0;
-	chc = 0;
-	cnt = subtracted_cnt(cur);
-	tmp = malloc(sizeof(char *) * cnt);
-	while (i < g_shell.in_pipe[cur])
+	len = new_len(&tmp, s);
+	res = (char **)ft_calloc(sizeof(char *), len + 1);
+	i = 1;
+	a = 0;
+	if (!ft_strstr(s[0], ">") && !ft_strstr(s[0], ">>") && !ft_strstr(s[0], "<") && !ft_strstr(s[0], "<<"))
+		res[0] = s[0];
+	while (i + a < g_shell.in_pipe[g_shell.p])
 	{
-		s = g_shell.all[cur][i];
-		if (s[i] != '<' || s[i] != '>')
+		while (i + a < g_shell.in_pipe[g_shell.p] && ft_strchr(tmp, i + a))
 		{
-			if (chc == 0)
-			{
-				tmp[i] = ft_fsplit(s, '<');
-				if (!tmp[i])
-					tmp[i] = ft_fsplit(s, '>');
-				if (!tmp[i])
-					tmp[i] = ft_strdup(s);
-			}
+			free(s[i + a]);
+			a++;
 		}
-		if (ft_strstr(s, "<") || ft_strstr(s, ">") || ft_strstr(s, "<<") || ft_strstr(s, ">>"))
-			chc = 1;
-		//if (last_char())
+		res[i] = s[i + a];
+		i++;
 	}
-	g_shell.in_pipe[cur] = cnt;
-	return (tmp);
+	//free(s[i + a]);
+	g_shell.in_pipe[g_shell.p] = len;
+	free(s);
+	return (res);
 }
 
 void	redirections(void)
 {
 	int	i;
-	char	**tmp;
+	char	**s;
+	int	save_fd[2];
 
+	s = g_shell.all[g_shell.p];
 	i = 0;
-	while (i <= g_shell.p_cnt)
+	while (i < g_shell.in_pipe[g_shell.p])
 	{
-		tmp = redirector_clear(i);
-//		free(g_shell.all[i]);
-//		g_shell.all[i] = tmp;
+		if (ft_strstr(s[i], ">") || ft_strstr(s[i], ">>") ||
+			ft_strstr(s[i], "<") ||ft_strstr(s[i], "<<"))
+			execute_redirect(s[i + 1], s[i]);
 		i++;
 	}
+	g_shell.all[g_shell.p] = cut_redirects(s);
 }

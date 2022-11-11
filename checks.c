@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 00:01:54 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/30 00:01:55 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/11/10 17:00:54 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,9 @@ int	operator_chc(void)
 
 void	ft_error(char *command, char *msg)
 {
-	printf("%s: %s\n", command, msg);
+	ft_putstr_fd(command, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(msg, 2);
+	ft_putchar_fd('\n', 2);
+	//printf("%s: %s\n", command, msg);
 }

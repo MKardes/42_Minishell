@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:21:43 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/29 20:34:38 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/11/11 10:06:18 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,13 @@ int	main(int ac, char **av, char **env)
 	g_shell.p_cnt = 0;
 	g_shell.exit_status = 0;
 	g_shell.prompt = ft_strdup("<\033[0;92m Shell\033[0;39m > ");
+	g_shell.save_fd = (int *)ft_calloc(2, sizeof(int));
+	g_shell.heredocpipe = (int *)malloc(sizeof(int) * 2);
 	signal(SIGINT, sig_int);
 	minishell_put();
 	while (1)
 	{
+		pipe(g_shell.heredocpipe);
 		g_shell.p = 0;
 		if (g_shell.line)
 		{
@@ -70,6 +73,7 @@ int	main(int ac, char **av, char **env)
 			pipe(g_shell.mpipe[i]);
 			i++;
 		}
+		heredoc_fill();
 		start();
 		myfree();
 	}

@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:04:25 by mkardes           #+#    #+#             */
-/*   Updated: 2022/10/30 19:55:22 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/11/10 17:16:45 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	command_select(void)
 {
 	int	pid;
 
+	redirections();
 	if (command_chc())
 		return ;
 	if (ft_strstr(g_shell.all[g_shell.p][0], "env"))
@@ -124,7 +125,8 @@ void	command_select(void)
 void	start(void)
 {
 	int	pid;
-
+	
+	save_std_fds();
 	if (g_shell.p_cnt == 0)
 		command_select();
 	while (g_shell.p_cnt != 0 && g_shell.p <= g_shell.p_cnt)
@@ -147,4 +149,5 @@ void	start(void)
 		}
 		g_shell.p++;
 	}
+	restore_std_fds();
 }

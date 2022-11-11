@@ -6,7 +6,7 @@
 /*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 00:21:43 by mkardes           #+#    #+#             */
-/*   Updated: 2022/11/09 20:41:15 by mkardes          ###   ########.fr       */
+/*   Updated: 2022/11/10 19:06:13 by mkardes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,7 @@ void	partition(int p, int i, int j, int cnt)
 			if ((s[i] == '\"') || (s[i] == '\''))
 				partition_func(s, &i, tmp, j);
 			else
-			{/*
-				if (s[i] == '<' || s[i] == '>')
-				{
-					i++;
-					if (s[i] == '<' || s[i] == '>')
-						i++;
-					i++;
-					break;
-				}*/
 				i++;
-			}
 		}
 		z = i - z;
 		if (g_shell.in_pipe[p] != a)
@@ -89,29 +79,11 @@ void	check_fill(char *s, int i, int j, int p)
 			if (s[i + a] == '\"' || s[i + a] == '\'')
 				check_func(s, i, &a, j);
 			else
-			{
-				/*
-				if (ft_strchr("<>", s[i + a]))
-				{
-					cnt++;
-					if (s[i + a + 1] == '<' || s[i + a + 1] == '>')
-					{
-						if (!s[i + a + 2])
-							cnt--;
-						a++;
-					}
-					else if (!s[i + a + 1])
-						cnt--;
-					a++;
-					break;
-				}*/
 				a++;
-			}
 		}
 		if (a >= j)
 			break;
 	}
-	printf("cnt: %d\n",cnt);
 	g_shell.in_pipe[p] = cnt;
 	if (p == g_shell.p_cnt)
 		g_shell.in_pipe[p] = cnt;
@@ -241,10 +213,6 @@ void	parsing(void)
 	}
 	g_shell.all = (char ***)malloc(sizeof(char **) * (g_shell.p_cnt + 1));
 	g_shell.in_pipe = (int *)malloc(sizeof(int) * (g_shell.p_cnt + 1));
-	g_shell.redirectors = (char **)ft_calloc(sizeof(char *), (g_shell.p_cnt + 1));
-	g_shell.red_type = (char *)ft_calloc(1, (g_shell.p_cnt + 2));
 	split_pipe(s);
 	check_quote_var();
-	printer();
-	//redirections();
 }

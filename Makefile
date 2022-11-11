@@ -2,7 +2,7 @@ NAME_W = minishell.exe
 MLIB = libft/libft.a
 RL = -lreadline
 GFLAGS = -Wall -Werror -Wextra
-SRCS = dir_cmnds.c echo.c environmentals.c free.c minishell.c parsing.c parsing2.c printer.c unset.c utils.c start.c checks.c redirections.c
+SRCS = dir_cmnds.c echo.c environmentals.c free.c minishell.c parsing.c parsing2.c printer.c unset.c utils.c start.c checks.c redirections.c heredoc.c
 
 all: $(NAME_W)
 
