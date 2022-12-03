@@ -17,7 +17,6 @@ void	env(void)
 	int	i;
 
 	i = 0;
-	
 	if (g_shell.in_pipe[g_shell.p] != 1)
 	{
 		ft_error("env", "Undefined option or argument");
@@ -30,7 +29,8 @@ void	env(void)
 	}
 }
 
-// It checks if the environmental variable is exsits. Returns the index of it when it exists, if not it returns -1
+// It checks if the environmental variable is exsits.
+// Returns the index of it when it exists, if not it returns -1
 int	check_if_exist(char **env, char *str)
 {
 	char	*s;
@@ -38,7 +38,7 @@ int	check_if_exist(char **env, char *str)
 	char	*var;
 	char	*tmp;
 	int		i;
-	
+
 	i = 0;
 	if (!env)
 		return (0);
@@ -87,12 +87,12 @@ void	env_add(char *str)
 	if (g_shell.env)
 		free(g_shell.env);
 	g_shell.env = n_env;
-	
 }
 
 void	my_export(void)
 {
 	int	i;
+	int	h;
 
 	i = 1;
 	if (!operator_chc())
@@ -102,13 +102,12 @@ void	my_export(void)
 		i = 0;
 		while (g_shell.env && g_shell.env[i])
 		{
-			printf("declare -x %s\n",g_shell.env[i]);
+			printf("declare -x %s\n", g_shell.env[i]);
 			i++;
 		}
 	}
 	while (i < g_shell.in_pipe[g_shell.p])
 	{
-		int	h;
 		h = check_if_exist(g_shell.env, g_shell.all[g_shell.p][i]);
 		if (h == -1)
 		{
@@ -122,10 +121,6 @@ void	sig_int(int sig)
 {
 	if (sig == SIGINT)
 	{
-		//rl_clear_history();
-		//rl_on_new_line();
-		//rl_redisplay();
-		//rl_replace_line("aaaaaaa", 1);
 		printf("\n%s", g_shell.prompt);
 		free(g_shell.line);
 		g_shell.line = NULL;

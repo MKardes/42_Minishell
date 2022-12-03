@@ -26,7 +26,7 @@ void	get_doc(char *eof)
 		if (ft_strstr(eof, doc_line))
 		{
 			free(doc_line);
-			break;
+			break ;
 		}
 		write(g_shell.heredocpipe[1], doc_line, ft_strlen(doc_line));
 		write(g_shell.heredocpipe[1], "\n", 1);

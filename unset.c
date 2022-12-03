@@ -15,7 +15,7 @@
 char	**get_it_out(char **env, int j, int l)
 {
 	char	**new;
-	int	i;
+	int		i;
 
 	i = 0;
 	if (!env)
@@ -25,7 +25,7 @@ char	**get_it_out(char **env, int j, int l)
 		free(env);
 		return (NULL);
 	}
-	new = (char **)malloc(sizeof(char *) * l);
+	new = (char **)ft_calloc(l, sizeof(char *));
 	while (i < j)
 	{
 		new[i] = env[i];
@@ -37,7 +37,6 @@ char	**get_it_out(char **env, int j, int l)
 		new[i] = env[i + 1];
 		i++;
 	}
-	new[i] = NULL;
 	free(env);
 	return (new);
 }
@@ -66,7 +65,7 @@ void	my_unset(void)
 			if (ft_strstr(tmp, g_shell.all[g_shell.p][i]))
 			{
 				g_shell.env = get_it_out(g_shell.env, j, l);
-				break;
+				break ;
 			}
 			free(tmp);
 			j++;

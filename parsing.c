@@ -19,8 +19,7 @@ void	partition(int p, int i, int j, int cnt)
 	int		z;
 	int		tmp;
 
-	g_shell.all[p] = (char **)malloc(sizeof(char *) * (cnt + 1));
-	g_shell.all[p][cnt] = NULL;
+	g_shell.all[p] = (char **)ft_calloc(sizeof(char *), (cnt + 1));
 	s = g_shell.line;
 	a = 0;
 	tmp = i;
@@ -42,23 +41,8 @@ void	partition(int p, int i, int j, int cnt)
 		a++;
 	}
 }
-
-void	partition_func(char	*s, int *i, int tmp, int j)
-{
-	if (s[*i] == '\"')
-	{
-		while (s[++(*i)] != '\"' && (*i) - tmp < j)
-			;
-		(*i)++;
-	}
-	else if (s[(*i)] == '\'')
-	{
-		while (s[(++(*i))] != '\'' && (*i) - tmp < j)
-			;
-		(*i)++;
-	}
-}
-//This function allocates to the string parts and fill them into the correct parts.
+//This function allocates to the string parts
+//and fill them into the correct parts.
 
 void	check_fill(char *s, int i, int j, int p)
 {
@@ -72,7 +56,7 @@ void	check_fill(char *s, int i, int j, int p)
 		while (a < j && s[i + a] == 32)
 			a++;
 		if (a == j)
-			break;
+			break ;
 		cnt++;
 		while (a < j && s[i + a] != 32)
 		{
@@ -82,40 +66,14 @@ void	check_fill(char *s, int i, int j, int p)
 				a++;
 		}
 		if (a >= j)
-			break;
+			break ;
 	}
 	g_shell.in_pipe[p] = cnt;
-	if (p == g_shell.p_cnt)
-		g_shell.in_pipe[p] = cnt;
 	partition(p, i, j, cnt);
 }
 
-void	check_func(char *s, int i, int *a, int j)
-{
-	if (s[i + (*a)] == '\"')
-	{
-		(*a)++;
-		while (s[i + (*a)] != '\"' && (*a) < j)
-			(*a)++;
-		(*a)++;
-	}
-	else
-	{
-		(*a)++;
-		while (s[i + (*a)] != '\'' && (*a) < j)
-			(*a)++;
-		(*a)++;
-	}
-}
-
-void	quotes_state(char *s, int i, int *j, char c)//	This function passes the string until reach to the another \" or '
-{
-	(*j)++;//							To pass to the next character to continue the loop until reach the other \" or \'
-	while (s[i + (*j)] != c && s[i + (*j)])
-		(*j)++;
-}
-
-void	split_pipe(char *s)//					This function splits the string into the piped parts
+//This function splits the string into the piped parts
+void	split_pipe(char *s)
 {
 	int	i;
 	int	j;
@@ -137,59 +95,38 @@ void	split_pipe(char *s)//					This function splits the string into the piped pa
 		check_fill(s, i, j, p);
 		p++;
 		if (!s[i + j])
-			break;
-		if (s[i + j] == '|' && !s[i + j + 1])//				"ls |" to not seg fault with that
+			break ;
+		if (s[i + j] == '|' && !s[i + j + 1])
 			g_shell.all[p] = command__chc(p);
 		i += j + 1;
 		j = 0;
 	}
 }
 
-void	pass(char *s, int *i, char c)
-{
-	(*i)++;
-	while (s[*i] && s[*i] != c)
-		(*i)++;
-	(*i)++;
-}
-
 char	*add_space(char *s)
 {
 	char	*res;
-	int	i;
-	int	a;
-	
+	int		i;
+	int		a;
+
 	res = (char *)ft_calloc(ft_strlen(s) * 2, 1);
-	i = 0;
+	i = -1;
 	a = 0;
-	while (s[i])
+	while (s[++i])
 	{
 		if (s[i] == '<' || s[i] == '>')
 		{
+			res[i + a++] = ' ';
 			if (s[i + 1] == '<' || s[i + 1] == '>')
 			{
-				res[i + a] = ' ';
-				a++;
 				res[i + a] = s[i];
 				i++;
-				res[i + a] = s[i];
-				i++;
-				res[i + a] = ' ';
-				a++;
 			}
-			else
-			{
-				res[i + a] = ' ';
-				a++;
-				res[i + a] = s[i];
-				i++;
-				res[i + a] = ' ';
-				a++;
-			}
-
+			res[i + a] = s[i];
+			i++;
+			res[i + a++] = ' ';
 		}
 		res[i + a] = s[i];
-		i++;
 	}
 	free(s);
 	return (res);

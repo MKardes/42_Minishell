@@ -23,9 +23,9 @@ void	minishell_put(void)
 	printf("\t| |\\/| |  | |  | | \\ | |  | |       \\ \\   | ____"\
 			"_ |  | ___|    | ___|    | |\n");
 	printf("\t| |  | |  | |  | |  \\| |  | |     ___/ /  | |   | |"\
-		  	"  | |_____  | |_____  | |______\n");
+			"  | |_____  | |_____  | |______\n");
 	printf("\t|_|  |_|  |_|  |_|   \\_|  |_|    |____/   |_|   |_|"\
-		  	"  |______|  |______|  |_______|\n\033[0;39m");
+			"  |______|  |______|  |_______|\n\033[0;39m");
 }
 
 int	main(int ac, char **av, char **env)
@@ -55,16 +55,20 @@ int	main(int ac, char **av, char **env)
 			g_shell.line = NULL;
 		}
 		g_shell.line = readline(g_shell.prompt);
-		if (!g_shell.line)
+		if (g_shell.line == NULL)
 		{
 			ft_putstr_fd("exit\n", 1);
 			exit(0);
 		}
-		if (!g_shell.line[0])
-            continue ;
+		if (g_shell.line[0] == '\0')
+		{
+			close(g_shell.heredocpipe[0]);
+			close(g_shell.heredocpipe[1]);
+			continue ;
+		}
 		add_history(g_shell.line);
 		parsing();
-		g_shell.mpipe = (int **)malloc(sizeof(int*) * g_shell.p_cnt + 1);
+		g_shell.mpipe = (int **)malloc(sizeof(int *) * g_shell.p_cnt + 1);
 		g_shell.mpipe[g_shell.p_cnt] = NULL;
 		i = 0;
 		while (i < g_shell.p_cnt)

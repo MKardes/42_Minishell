@@ -30,7 +30,7 @@ void	myfree(void)
 		i++;
 	}
 	i = -1;
-	while(g_shell.mpipe[++i])
+	while (g_shell.mpipe[++i])
 		free(g_shell.mpipe[i]);
 	free(g_shell.mpipe[i]);
 	free(g_shell.mpipe);

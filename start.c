@@ -12,12 +12,10 @@
 
 #include "minishell.h"
 
-t_shell g_shell;
-
 char	**arg_add(char **arg, char *str)
 {
 	char	**new;
-	int	i;
+	int		i;
 
 	i = 0;
 	while (arg[i])
@@ -53,7 +51,7 @@ void	get_output(void)
 
 void	finder(void)
 {
-	int	i;
+	int		i;
 	char	*tmp;
 	char	*a;
 	char	**s;
@@ -78,7 +76,7 @@ void	finder(void)
 	while (s[i])
 	{
 		if (execve(s[i], g_shell.all[g_shell.p], g_shell.env) != -1)
-			break;
+			break ;
 		i++;
 	}
 	ft_error(g_shell.all[g_shell.p][0], "command not found");
@@ -125,7 +123,7 @@ void	command_select(void)
 void	start(void)
 {
 	int	pid;
-	
+
 	save_std_fds();
 	if (g_shell.p_cnt == 0)
 		command_select();

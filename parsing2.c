@@ -12,51 +12,6 @@
 
 #include "minishell.h"
 
-char	*cut_var(char *str)
-{
-	int		i;
-	char	*res;
-
-	i = 0;
-	while (str[i] != '$' && str[i] != ' ' && str[i])
-		i++;
-	res = malloc(i + 1);
-	i = 0;
-	while (str[i] != '$' && str[i] != ' ' && str[i])
-	{
-		res[i] = str[i];
-		i++;
-	}
-	res[i] = '\0';
-	return (res);
-}
-
-char	*fill_it(char *str)
-{
-	int		i;
-	char	*tmp;
-	char	*res;
-	char	*var;
-
-	if (!str)
-		return (NULL);
-	var = cut_var(str);
-	i = env_finder(var);
-	free(var);
-	if (i == -1)
-	{
-		if (str[0] == '?' && !str[1])
-			return (ft_itoa(g_shell.exit_status));
-		return (ft_strdup(""));
-	}
-	else
-	{
-		tmp = ft_strchr(g_shell.env[i], '=');
-		res = ft_strdup(++tmp);
-		return (res);
-	}
-}
-
 char	*complete(char *str)
 {
 	int		i;
@@ -70,7 +25,7 @@ char	*complete(char *str)
 	while (str[i] != '$' && str[i])
 	{
 		res[i] = str[i];
-        i++;
+		i++;
 	}
 	res[i] = '\0';
 	return (res);
@@ -82,11 +37,9 @@ char	*get_varriable(char *str)
 	char	*tmp;
 	char	*res1;
 	int		i;
-	int		a;
 
 	i = 0;
-	res1 = malloc(1);
-	res1[0] = '\0';
+	res1 = ft_calloc(1, 1);
 	while (str[i])
 	{
 		if (str[i] == '$')
@@ -103,23 +56,16 @@ char	*get_varriable(char *str)
 				i++;
 		}
 		res = ft_strjoin(res1, tmp);
-		//printf("res-%p\nres1-%p\ntmp-%p\n\n",res,res1,tmp);
 		free(res1);
 		res1 = res;
-		//printf("3-%p\n\n",res1);
 		free(tmp);
 	}
 	return (res);
 }
 
-void	cpy_without_qoute(char **neww, const char *src)
+//parametre aldım
+void	cpy_without_qoute(char *new, const char *src, char c, int i)
 {
-	int		i;
-	char	c;
-	char	*new;
-
-	new = *neww;
-	i = 0;
 	while (src[i])
 	{
 		if (src[i] == '\"' || src[i] == '\'')
@@ -140,8 +86,6 @@ void	cpy_without_qoute(char **neww, const char *src)
 			i++;
 		}
 	}
-	new[i] = '\0';
-	*neww = new;
 }
 
 char	*rm_quotes(char *str)
@@ -162,8 +106,8 @@ char	*rm_quotes(char *str)
 		if (str[i])
 			i++;
 	}
-	new = malloc(ft_strlen(str) + 1 - cnt);
-	cpy_without_qoute(&new, str);
+	new = ft_calloc(ft_strlen(str) + 1 - cnt, sizeof (char));
+	cpy_without_qoute(new, str, 0, 0);
 	return (new);
 }
 

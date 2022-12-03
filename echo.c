@@ -29,7 +29,7 @@ void	echo(void)
 			return ;
 		}
 	}
-	while (i + n_chc  < g_shell.in_pipe[g_shell.p])
+	while (i + n_chc < g_shell.in_pipe[g_shell.p])
 	{
 		printf("%s", g_shell.all[g_shell.p][i + n_chc]);
 		if (i + n_chc + 1 != g_shell.in_pipe[g_shell.p])

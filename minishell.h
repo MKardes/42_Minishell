@@ -25,25 +25,29 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+//p_cnt : Pipe counts
+//in_pipe: The count of words in every pipes
+//mpipe: *pipes[0] read   --   *pipes[1] write
+//save_fd:
+//heredoc_pipe:
 typedef struct m_shell {
 	void	*funcs;
 	char	**env;
 	char	***all;
 	char	*line;
 	char	*prompt;
-	int		p_cnt;		//Pipe counts   { echo "Mini" Shell | tr '\n' 'E' | cat > text.txt }  p_cnt = 2 
-	int		*in_pipe;	//The count of words in every pipes: in_pipe[0] = the word count in the first pipe
+	int		p_cnt;
+	int		*in_pipe;
 	int		type;
 	int		p;
-	int		**mpipe;	//*pipes[0] read   --   *pipes[1] write
+	int		**mpipe;
 	int		exit_status;
 	int		*save_fd;
 	int		*heredocpipe;
 }	t_shell;
 
-extern t_shell	g_shell;
+t_shell	g_shell;
 
-void	printer(void);
 void	partition(int p, int i, int j, int c);
 void	check_fill(char *s, int i, int j, int p);
 void	quotes_state(char *s, int i, int *j, char c);
@@ -74,5 +78,16 @@ void	save_std_fds(void);
 void	restore_std_fds(void);
 void	heredoc(void);
 void	heredoc_fill(void);
+void	partition_func(char	*s, int *i, int tmp, int j);
+void	check_func(char *s, int i, int *a, int j);
+void	quotes_state(char *s, int i, int *j, char c);
+void	pass(char *s, int *i, char c);
+char	*cut_var(char *str);
+char	*fill_it(char *str);
+char	*get_varriable(char *str);
+void	save_std_fds(void);
+void	restore_std_fds(void);
+void	writable(char *file_name, int flag);
+void	readable(char *file_name);
 
 #endif

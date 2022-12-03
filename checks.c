@@ -54,5 +54,4 @@ void	ft_error(char *command, char *msg)
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(msg, 2);
 	ft_putchar_fd('\n', 2);
-	//printf("%s: %s\n", command, msg);
 }
