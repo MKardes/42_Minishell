@@ -121,10 +121,8 @@ void	my_export(void)
 
 void	sig_int(int sig)
 {
-	if (sig == SIGINT)
-	{
-		printf("\n%s", g_shell.prompt);
-		free(g_shell.line);
-		g_shell.line = NULL;
-	}
+	printf("\n");
+	g_shell.exit_status = 130;
+	free(g_shell.line);
+	g_shell.line = NULL;
 }
