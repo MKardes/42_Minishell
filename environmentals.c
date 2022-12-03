@@ -27,6 +27,7 @@ void	env(void)
 		printf("%s\n", g_shell.env[i]);
 		i++;
 	}
+	g_shell.exit_status = 0;
 }
 
 // It checks if the environmental variable is exsits.
@@ -115,6 +116,7 @@ void	my_export(void)
 		}
 		i++;
 	}
+	g_shell.exit_status = 0;
 }
 
 void	sig_int(int sig)

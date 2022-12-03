@@ -54,4 +54,6 @@ void	ft_error(char *command, char *msg)
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(msg, 2);
 	ft_putchar_fd('\n', 2);
+	if (msg[0] == 'U')
+		g_shell.exit_status = 2;
 }

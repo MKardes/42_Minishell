@@ -38,4 +38,5 @@ void	echo(void)
 	}
 	if (n_chc != 1)
 		printf("\n");
+	g_shell.exit_status = 0;
 }

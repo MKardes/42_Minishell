@@ -72,4 +72,5 @@ void	my_unset(void)
 		}
 		i++;
 	}
+	g_shell.exit_status = 0;
 }

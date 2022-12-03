@@ -80,7 +80,7 @@ void	finder(void)
 		i++;
 	}
 	ft_error(g_shell.all[g_shell.p][0], "command not found");
-	exit(0);
+	exit(127);
 }
 
 void	command_select(void)

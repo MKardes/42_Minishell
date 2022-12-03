@@ -81,11 +81,13 @@ void	cd(void)
 		perror("");
 		free(old);
 		free(dest);
+		g_shell.exit_status = 1;
 		return ;
 	}
 	else
 		ch_wd(old, dest);
 	free(dest);
+	g_shell.exit_status = 0;
 }
 
 void	pwd(void)
@@ -111,4 +113,5 @@ void	pwd(void)
 		free(s);
 		i++;
 	}
+	g_shell.exit_status = 0;
 }
