@@ -30,8 +30,6 @@ void	minishell_put(void)
 
 int	main(int ac, char **av, char **env)
 {
-	char	*name;
-	char	*s;
 	int		i;
 
 	(void)av;
@@ -57,7 +55,7 @@ int	main(int ac, char **av, char **env)
 		g_shell.line = readline(g_shell.prompt);
 		if (g_shell.line == NULL)
 		{
-			ft_putstr_fd("exit\n", 1);
+			ft_putstr_fd("\b\bexit\n", 1);
 			exit(0);
 		}
 		if (g_shell.line[0] == '\0')
@@ -65,6 +63,10 @@ int	main(int ac, char **av, char **env)
 			close(g_shell.heredocpipe[0]);
 			close(g_shell.heredocpipe[1]);
 			continue ;
+		}
+		if (g_shell.line[0] == '\n')
+		{
+			printf("aa");
 		}
 		add_history(g_shell.line);
 		parsing();

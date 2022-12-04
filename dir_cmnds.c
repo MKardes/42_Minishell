@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	ch_wd(char *old, char *dest)
+void	ch_wd(char *old)
 {
 	int		i;
 	int		j;
@@ -42,7 +42,6 @@ void	ch_wd(char *old, char *dest)
 char	*dir_sign(char *str, char c)
 {
 	char	*dest;
-	char	*tmp;
 
 	if (c == '-')
 	{
@@ -85,7 +84,7 @@ void	cd(void)
 		return ;
 	}
 	else
-		ch_wd(old, dest);
+		ch_wd(old);
 	free(dest);
 	g_shell.exit_status = 0;
 }
@@ -95,7 +94,6 @@ void	pwd(void)
 	int		i;
 	char	*s;
 	char	*a;
-	int		pid;
 
 	i = 0;
 	if (!operator_chc())

@@ -90,7 +90,6 @@ void	redirections(void)
 {
 	int		i;
 	char	**s;
-	int		save_fd[2];
 
 	s = g_shell.all[g_shell.p];
 	i = 0;

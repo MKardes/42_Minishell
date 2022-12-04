@@ -19,7 +19,7 @@ void	echo(void)
 
 	n_chc = 0;
 	i = 1;
-	if (g_shell.all[g_shell.p][i][0] == '-')
+	if (g_shell.all[g_shell.p][i] && g_shell.all[g_shell.p][i][0] == '-')
 	{
 		if (g_shell.all[g_shell.p][i][1] == 'n')
 			n_chc = 1;

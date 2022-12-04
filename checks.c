@@ -17,6 +17,7 @@ char	**command__chc(int p)
 	char	**ptr;
 
 	ptr = malloc(sizeof(char **));
+	printf("x%p\n",ptr);
 	g_shell.in_pipe[p] = 0;
 	return (ptr);
 }

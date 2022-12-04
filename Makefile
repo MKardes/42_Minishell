@@ -1,16 +1,16 @@
-NAME_W = minishell.exe
+NAME = minishell
 MLIB = libft/libft.a
 RL = -lreadline
 GFLAGS = -Wall -Werror -Wextra
 SRCS = dir_cmnds.c echo.c environmentals.c free.c minishell.c parsing.c parsing2.c parsing3.c parsing4.c unset.c utils.c start.c checks.c redirections.c redirections2.c heredoc.c
 
-all: $(NAME_W)
+all: $(NAME)
 
-run: $(NAME_W)
-	./$(NAME_W)
+run: $(NAME)
+	./$(NAME)
 
-$(NAME_W): $(MLIB) $(SRCS)
-	@gcc $(SRCS) $(MLIB) $(RL) -o $(NAME_W)
+$(NAME): $(MLIB) $(SRCS)
+	@gcc $(GFLAGS) $(SRCS) $(MLIB) $(RL) -o $(NAME)
 	@echo "Compiling Done"
  
 $(MLIB): libft

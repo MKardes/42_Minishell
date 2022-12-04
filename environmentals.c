@@ -121,8 +121,10 @@ void	my_export(void)
 
 void	sig_int(int sig)
 {
-	printf("\n");
-	g_shell.exit_status = 130;
-	free(g_shell.line);
-	g_shell.line = NULL;
+	(void)sig;
+	ft_putstr_fd("\b\b  ", 2);
+	ft_putstr_fd("\n", 2);
+	ft_putstr_fd(g_shell.prompt, 2);
+//	free(g_shell.line);
+//	g_shell.line = NULL;
 }
