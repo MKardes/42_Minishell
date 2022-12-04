@@ -21,6 +21,7 @@ char	*complete(char *str)
 	while (str[i] != '$' && str[i])
 		i++;
 	res = malloc(i + 1);
+	printf("r%p",res);
 	i = 0;
 	while (str[i] != '$' && str[i])
 	{

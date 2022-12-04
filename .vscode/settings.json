@@ -3,6 +3,7 @@
         "minishell.h": "c",
         "algorithm": "c",
         "__locale": "c",
-        "bitset": "c"
+        "bitset": "c",
+        "sstream": "c"
     }
 }
