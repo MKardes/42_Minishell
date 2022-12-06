@@ -33,6 +33,7 @@
 typedef struct m_shell {
 	void	*funcs;
 	char	**env;
+	char	**declares;
 	char	***all;
 	char	*line;
 	char	*prompt;
@@ -89,5 +90,9 @@ void	save_std_fds(void);
 void	restore_std_fds(void);
 void	writable(char *file_name, int flag);
 void	readable(char *file_name);
+void	my_declares();
+void	declare_add(char *str);
+void	declare_init(void);
+void	declare_sort(void);
 
 #endif

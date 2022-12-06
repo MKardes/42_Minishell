@@ -69,7 +69,7 @@ int	check_if_exist(char **env, char *str)
 	return (-1);
 }
 
-void	env_add(char *str)
+void	env_add(char *str) //bak
 {
 	char	**n_env;
 	int		i;
@@ -84,13 +84,13 @@ void	env_add(char *str)
 	while (++j < i)
 		n_env[j] = g_shell.env[j];
 	n_env[i] = ft_strdup(str);
-	i = -1;
+//	i = -1;   bu ne
 	if (g_shell.env)
 		free(g_shell.env);
 	g_shell.env = n_env;
 }
 
-void	my_export(void)
+void	my_export(void)// bak
 {
 	int	i;
 	int	h;
@@ -99,21 +99,16 @@ void	my_export(void)
 	if (!operator_chc())
 		return ;
 	if (!g_shell.all[g_shell.p][1])
-	{
-		i = 0;
-		while (g_shell.env && g_shell.env[i])
-		{
-			printf("declare -x %s\n", g_shell.env[i]);
-			i++;
-		}
-	}
+		my_declares();
 	while (i < g_shell.in_pipe[g_shell.p])
 	{
-		h = check_if_exist(g_shell.env, g_shell.all[g_shell.p][i]);
-		if (h == -1)
+		if (ft_strchr(g_shell.all[g_shell.p][i], '='))
 		{
-			env_add(g_shell.all[g_shell.p][i]);
+			h = check_if_exist(g_shell.env, g_shell.all[g_shell.p][i]);
+			if (h == -1)
+				env_add(g_shell.all[g_shell.p][i]);
 		}
+		declare_add(g_shell.all[g_shell.p][i]);
 		i++;
 	}
 	g_shell.exit_status = 0;
