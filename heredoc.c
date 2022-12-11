@@ -12,13 +12,17 @@
 
 #include "minishell.h"
 
-void	get_doc(char *eof)
+int	get_doc(char *eof, char *doc_line)
 {
-	char	*doc_line;
 	char	*heredoc_prompt;
 
 	if (!eof)
-		return ;
+		return (-1);
+	if (eof[0] == '<')
+	{
+		ft_error("bash", "< usage error");
+		return (-1);
+	}
 	heredoc_prompt = ft_strdup("heredoc> ");
 	while (1)
 	{
@@ -30,15 +34,20 @@ void	get_doc(char *eof)
 		}
 		write(g_shell.heredocpipe[1], doc_line, ft_strlen(doc_line));
 		write(g_shell.heredocpipe[1], "\n", 1);
+		free(doc_line);
 	}
 	close(g_shell.heredocpipe[1]);
+	free(heredoc_prompt);
+	return (0);
 }
 
-void	heredoc_fill(void)
+int	heredoc_fill(void)
 {
 	int	i;
 	int	j;
 
+	pipe(g_shell.heredocpipe);
+	g_shell.p = 0;
 	i = 0;
 	while (i <= g_shell.p_cnt)
 	{
@@ -47,13 +56,15 @@ void	heredoc_fill(void)
 		{
 			if (ft_strstr("<<", g_shell.all[i][j]))
 			{
-				get_doc(g_shell.all[i][j + 1]);
-				return ;
+				if (get_doc(g_shell.all[i][j + 1], NULL) == -1)
+					return (-1);
+				return (0);
 			}
 			j++;
 		}
 		i++;
 	}
+	return (1);
 }
 
 void	heredoc(void)

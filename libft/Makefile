@@ -46,7 +46,7 @@ SRCS = ft_isalpha.c \
 	   ft_putstr_fd.c \
 	   ft_putendl_fd.c \
 	   ft_putnbr_fd.c \
-	   ft_strstr.c ft_fsplit.c ft_strddup.c ft_dblsplit.c#special fo -> Minishell
+	   ft_strstr.c ft_fsplit.c ft_strddup.c ft_dblsplit.c ft_strjoin_v2.c#special fo -> Minishell
 
 
 BONUS = ft_lstnew.c \

@@ -1,130 +1,72 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   declare.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkardes <mkardes@student.42kocaeli.com.tr  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/16 00:25:40 by mkardes           #+#    #+#             */
+/*   Updated: 2022/11/11 11:51:51 by mkardes          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void    declare_sort();
-char    *declare_add_quotes(char *s);
-
-void	my_declares()
+void	declare_env_add_check(char *s)
 {
-	int	i;
+	int		e;
+	int		d;
+	char	*last;
 
-	i = 0;
-	while (g_shell.declares[i])
-	{
-		printf("declare -x %s\n", g_shell.declares[i]);
-		i++;
-	}
+	if (ft_strchr(s, '='))
+		last = ft_strdup(ft_strchr(s, '=') + 1);
+	else
+		last = ft_strdup("");
+	e = check_if_exist(g_shell.env, s, last);
+	d = is_dec_exist(s, last);
+	free(last);
+	if (e == -1)
+		env_add(s);
+	if (d == -1)
+		declare_add(s);
 }
 
-void	declare_sort()
-{
-	int	len;
-	int	i;
-	int	j;
-	char	*tmp;
-	
-	len = 0;
-	while (g_shell.declares[len])
-		len++;
-	i = 0;
-	while (i < len)
-	{
-		j = 0;
-		while (j < len - 1 - i)
-		{
-			if (ft_strncmp(g_shell.declares[j], g_shell.declares[j + 1], 1000) > 0)
-			{
-				tmp = g_shell.declares[j];
-				g_shell.declares[j] = g_shell.declares[j + 1];
-				g_shell.declares[j + 1] = tmp;
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
-char	*declare_add_quotes(char *s)
+int	get_it(int i, char **last, char **var, char **s)
 {
 	char	*tmp;
-	int	i;
+	char	*tmp1;
 
-	if (ft_strchr(s, '=') == 0)
-		return (s);
-	tmp = ft_calloc(ft_strlen(s) + 3, 1);
-	i = 0;
-	while (s[i])
+	if (*last[0])
 	{
-		if (s[i] == '=')
-			break;
-		tmp[i] = s[i];
-		i++;
+		free(g_shell.declares[i]);
+		tmp = ft_strjoin(*var, "=\"");
+		tmp1 = ft_strjoin(*last, "\"");
+		g_shell.declares[i] = ft_strjoin(tmp, tmp1);
+		my_free_1(&tmp, s, &tmp1);
 	}
-	tmp[i++] = '=';
-	*(i + tmp++) = '\"';
-	while (s[i])
-	{
-		tmp[i] = s[i];
-		i++;
-	}
-	*(i + tmp++) = '\"';
-	tmp[i] = '\0';
-	free(s);
-	return (tmp - 2);
+	free(*var);
+	return (1);
 }
 
-int	is_exist(char *str)
+int	is_dec_exist(char *str, char *last)
 {
-	int	i;
+	int		i;
 	char	*var;
+	char	*s;
 
 	i = 0;
+	s = ft_fsplit(str, '=');
+	if (!s)
+		s = ft_strdup(str);
 	while (g_shell.declares && g_shell.declares[i])
 	{
 		var = ft_fsplit(g_shell.declares[i], '=');
-		if (ft_strstr(var, str))
-		{
-			free(var);
-			return (1);
-		}
+		if (!var)
+			var = ft_strdup(g_shell.declares[i]);
+		if (ft_strstr(var, s))
+			return (get_it(i, &last, &var, &s));
 		free(var);
 		i++;
 	}
-	return (0);
-}
-
-void	declare_add(char *s)
-{
-	char	**n_dec;
-	char	*str;
-	int	i;
-	int	j;
-
-	i = 0;
-	if (is_exist(s))
-		return ;
-	while (g_shell.declares && g_shell.declares[i])
-		i++;
-	n_dec = (char **)ft_calloc(sizeof(char *), (i + 2));
-	j = -1;
-	while (++j < i)
-		n_dec[j] = g_shell.declares[j];
-	str = ft_strdup(s);
-	n_dec[i] = declare_add_quotes(str);
-	if (g_shell.declares)
-		free(g_shell.declares);
-	g_shell.declares = n_dec;
-	declare_sort();
-}
-
-void	declare_init(void)
-{
-	int	i;
-
-	i = 0;
-	while (g_shell.env[i])
-	{
-		declare_add(g_shell.env[i]);
-		i++;
-	}
-	declare_sort();
+	return (my_free_2(&s));
 }

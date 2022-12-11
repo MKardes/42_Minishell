@@ -57,12 +57,11 @@ int	new_len(char **res, char **s)
 	return (len);
 }
 
-char	**cut_redirects(char **s, int i)
+char	**cut_redirects(char **s, int i, int a)
 {
 	char	**res;
 	char	*tmp;
 	int		len;
-	int		a;
 
 	i = 1;
 	a = 0;
@@ -83,6 +82,7 @@ char	**cut_redirects(char **s, int i)
 	}
 	g_shell.in_pipe[g_shell.p] = len;
 	free(s);
+	free(tmp);
 	return (res);
 }
 
@@ -100,5 +100,5 @@ void	redirections(void)
 			execute_redirect(s[i + 1], s[i]);
 		i++;
 	}
-	g_shell.all[g_shell.p] = cut_redirects(s, 0);
+	g_shell.all[g_shell.p] = cut_redirects(s, 1, 0);
 }

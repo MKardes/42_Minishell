@@ -47,11 +47,29 @@ void	check_func(char *s, int i, int *a, int j)
 }
 
 // This function passes the string until reach to the another \" or '
+
+void	fix_var(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == 96)
+			s[i] = '$';
+		i++;
+	}
+}
+
 void	quotes_state(char *s, int i, int *j, char c)
 {
 	(*j)++;
 	while (s[i + (*j)] != c && s[i + (*j)])
+	{
+		if (c == '\'' && s[i + (*j)] == '$')
+			s[i + (*j)] = 96;
 		(*j)++;
+	}
 }
 
 void	pass(char *s, int *i, char c)

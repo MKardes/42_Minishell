@@ -35,18 +35,17 @@ char	*get_varriable(char *str)
 {
 	char	*res;
 	char	*tmp;
-	char	*res1;
 	int		i;
 
 	i = 0;
-	res1 = ft_calloc(1, 1);
+	res = ft_calloc(1, 1);
 	while (str[i])
 	{
 		if (str[i] == '$')
 		{
 			i++;
 			tmp = fill_it(&str[i]);
-			while (str[i] != '$' && str[i] != ' ' && str[i])
+			while (str[i] != '$' && str[i] != 96 && str[i] != ' ' && str[i])
 				i++;
 		}
 		else
@@ -55,15 +54,11 @@ char	*get_varriable(char *str)
 			while (str[i] != '$' && str[i])
 				i++;
 		}
-		res = ft_strjoin(res1, tmp);
-		free(res1);
-		res1 = res;
-		free(tmp);
+		ft_strjoin_v2(&res, tmp);
 	}
 	return (res);
 }
 
-//parametre aldım
 void	cpy_without_qoute(char *new, const char *src, char c, int i)
 {
 	while (src[i])
@@ -120,13 +115,14 @@ void	check_quote_var(void)
 	i = 0;
 	while (i <= g_shell.p_cnt)
 	{
-		j = 1;
+		j = 0;
 		while (j < g_shell.in_pipe[i])
 		{
 			tmp = rm_quotes(g_shell.all[i][j]);
 			free(g_shell.all[i][j]);
 			g_shell.all[i][j] = get_varriable(tmp);
 			free(tmp);
+			fix_var(g_shell.all[i][j]);
 			j++;
 		}
 		i++;

@@ -17,7 +17,6 @@ char	**command__chc(int p)
 	char	**ptr;
 
 	ptr = malloc(sizeof(char **));
-	printf("x%p\n",ptr);
 	g_shell.in_pipe[p] = 0;
 	return (ptr);
 }
@@ -57,4 +56,8 @@ void	ft_error(char *command, char *msg)
 	ft_putchar_fd('\n', 2);
 	if (msg[0] == 'U')
 		g_shell.exit_status = 2;
+	if (msg[0] == 'w')
+		g_shell.exit_status = 1;
+	if (msg[0] == '<')
+		g_shell.exit_status = 5;
 }

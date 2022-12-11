@@ -12,57 +12,26 @@
 
 #include "minishell.h"
 
-char	**arg_add(char **arg, char *str)
+void	get_paths(char ***s)
 {
-	char	**new;
 	int		i;
+	char	*tmp;
+	char	*a;
 
-	i = 0;
-	while (arg[i])
-		i++;
-	new = malloc(sizeof(char *) * (i + 2));
-	new[i + 1] = NULL;
-	i = 0;
-	while (arg[i])
-	{
-		new[i] = arg[i];
-		i++;
-	}
-	new[i] = str;
-	free (arg);
-	return (new);
-}	
-
-void	get_output(void)
-{
-	if (g_shell.p != g_shell.p_cnt)
-	{
-		dup2(g_shell.mpipe[g_shell.p][1], 1);
-		close(g_shell.mpipe[g_shell.p][1]);
-		close(g_shell.mpipe[g_shell.p][0]);
-	}
-	if (g_shell.p != 0)
-	{
-		dup2(g_shell.mpipe[g_shell.p - 1][0], 0);
-		close(g_shell.mpipe[g_shell.p - 1][0]);
-		close(g_shell.mpipe[g_shell.p - 1][1]);
-	}
+	i = env_finder("PATH");
+	tmp = ft_strchr(g_shell.env[i], '=');
+	a = ft_strdup(tmp + 1);
+	*s = ft_split(a, ':');
+	free(a);
 }
 
 void	finder(void)
 {
 	int		i;
 	char	*tmp;
-	char	*a;
 	char	**s;
 
-	i = env_finder("PATH");
-	tmp = ft_strchr(g_shell.env[i], '=');
-	a = ft_strdup(tmp + 1);
-	tmp = ft_strjoin(a, ":./");
-	s = ft_split(tmp, ':');
-	free(tmp);
-	free(a);
+	get_paths(&s);
 	i = 0;
 	while (s[i])
 	{
@@ -79,14 +48,31 @@ void	finder(void)
 			break ;
 		i++;
 	}
+	execve(g_shell.all[g_shell.p][0], g_shell.all[g_shell.p], g_shell.env);
 	ft_error(g_shell.all[g_shell.p][0], "command not found");
 	exit(127);
+}
+
+void	command_select2(int pid)
+{
+	if (g_shell.p_cnt == 0)
+	{
+		pid = fork();
+		if (pid == 0)
+			finder();
+		else
+			waitpid(pid, &g_shell.exit_status, 0);
+		g_shell.exit_status /= 256;
+	}
+	else
+		finder();
 }
 
 void	command_select(void)
 {
 	int	pid;
 
+	pid = 0;
 	redirections();
 	if (command_chc())
 		return ;
@@ -105,25 +91,11 @@ void	command_select(void)
 	else if (ft_strstr(g_shell.all[g_shell.p][0], "unset"))
 		my_unset();
 	else
-	{
-		if (g_shell.p_cnt == 0)
-		{
-			pid = fork();
-			if (pid == 0)
-				finder();
-			else
-				waitpid(pid, &g_shell.exit_status, 0);
-			g_shell.exit_status /= 256;
-		}
-		else
-			finder();
-	}
+		command_select2(pid);
 }
 
-void	start(void)
+void	start(int pid)
 {
-	int	pid;
-
 	save_std_fds();
 	if (g_shell.p_cnt == 0)
 		command_select();

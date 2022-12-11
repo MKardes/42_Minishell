@@ -14,30 +14,28 @@
 
 void	partition(int p, int i, int j, int cnt)
 {
-	char	*s;
 	int		a;
 	int		z;
 	int		tmp;
 
 	g_shell.all[p] = (char **)ft_calloc(sizeof(char *), (cnt + 1));
-	s = g_shell.line;
 	a = 0;
 	tmp = i;
 	while (i - tmp < j)
 	{
-		while (i - tmp < j && s[i] == 32)
+		while (i - tmp < j && g_shell.line[i] == 32)
 			i++;
 		z = i;
-		while (i - tmp < j && s[i] != 32)
+		while (i - tmp < j && g_shell.line[i] != 32)
 		{
-			if ((s[i] == '\"') || (s[i] == '\''))
-				partition_func(s, &i, tmp, j);
+			if ((g_shell.line[i] == '\"') || (g_shell.line[i] == '\''))
+				partition_func(g_shell.line, &i, tmp, j);
 			else
 				i++;
 		}
 		z = i - z;
 		if (g_shell.in_pipe[p] != a)
-			g_shell.all[p][a] = ft_substr(s, i - z, z);
+			g_shell.all[p][a] = ft_substr(g_shell.line, i - z, z);
 		a++;
 	}
 }
@@ -73,14 +71,12 @@ void	check_fill(char *s, int i, int j, int p)
 }
 
 //This function splits the string into the piped parts
-void	split_pipe(char *s)
+void	split_pipe(char *s, int i)
 {
-	int	i;
 	int	j;
 	int	p;
 
 	p = 0;
-	i = 0;
 	j = 0;
 	while (s[i + j])
 	{
@@ -150,6 +146,7 @@ void	parsing(void)
 	}
 	g_shell.all = (char ***)malloc(sizeof(char **) * (g_shell.p_cnt + 1));
 	g_shell.in_pipe = (int *)malloc(sizeof(int) * (g_shell.p_cnt + 1));
-	split_pipe(s);
+	split_pipe(s, 0);
 	check_quote_var();
+	open_pipes();
 }

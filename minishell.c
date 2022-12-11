@@ -28,26 +28,48 @@ void	minishell_put(void)
 			"  |______|  |_______|  |_______|\n\033[0;39m");
 }
 
-int	main(int ac, char **av, char **env) // bah
+void	fill_and_put(char **av, char **env)
 {
-	int		i;
-
 	(void)av;
-	if (ac != 1)
-		return (0);
 	g_shell.env = ft_strddup(env);
-	declare_init();//asf sfs 
+	declare_init();
 	g_shell.p_cnt = 0;
 	g_shell.exit_status = 0;
-	g_shell.prompt = ft_strdup("<\033[0;92m Shell\033[0;39m > ");
+	g_shell.prompt = ft_strdup("< Shell > ");
 	g_shell.save_fd = (int *)ft_calloc(2, sizeof(int));
 	g_shell.heredocpipe = (int *)malloc(sizeof(int) * 2);
-	signal(SIGINT, sig_int);
 	minishell_put();
+	signal(SIGINT, sig_int);
+}
+
+void	open_pipes(void)
+{
+	int	i;
+
+	g_shell.mpipe = (int **)malloc(sizeof(int *) * g_shell.p_cnt + 1);
+	g_shell.mpipe[g_shell.p_cnt] = NULL;
+	i = 0;
+	while (i < g_shell.p_cnt)
+	{
+		g_shell.mpipe[i] = (int *)malloc(sizeof(int) * 2);
+		pipe(g_shell.mpipe[i]);
+		i++;
+	}
+}
+
+void	shell_exit(void)
+{
+	ft_putstr_fd("\b\bexit\n", 1);
+	exit(0);
+}
+
+int	main(int ac, char **av, char **env)
+{
+	if (ac != 1)
+		return (0);
+	fill_and_put(av, env);
 	while (1)
 	{
-		pipe(g_shell.heredocpipe);
-		g_shell.p = 0;
 		if (g_shell.line)
 		{
 			free(g_shell.line);
@@ -55,33 +77,13 @@ int	main(int ac, char **av, char **env) // bah
 		}
 		g_shell.line = readline(g_shell.prompt);
 		if (g_shell.line == NULL)
-		{
-			ft_putstr_fd("\b\bexit\n", 1);
-			exit(0);
-		}
+			shell_exit();
 		if (g_shell.line[0] == '\0')
-		{
-			close(g_shell.heredocpipe[0]);
-			close(g_shell.heredocpipe[1]);
 			continue ;
-		}
-		if (g_shell.line[0] == '\n')
-		{
-			printf("aa");
-		}
 		add_history(g_shell.line);
 		parsing();
-		g_shell.mpipe = (int **)malloc(sizeof(int *) * g_shell.p_cnt + 1);
-		g_shell.mpipe[g_shell.p_cnt] = NULL;
-		i = 0;
-		while (i < g_shell.p_cnt)
-		{
-			g_shell.mpipe[i] = (int *)malloc(sizeof(int) * 2);
-			pipe(g_shell.mpipe[i]);
-			i++;
-		}
-		heredoc_fill();
-		start();
+		if (heredoc_fill() != -1)
+			start(0);
 		myfree();
 	}
 	return (0);

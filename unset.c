@@ -41,35 +41,54 @@ char	**get_it_out(char **env, int j, int l)
 	return (new);
 }
 
+void	remove_env_dec(char ***ptr, int i, int l)
+{
+	int		j;
+	char	**str;
+	char	*tmp;
+
+	str = *ptr;
+	j = 0;
+	if (l == 0)
+		return ;
+	while (str && str[j])
+	{
+		tmp = ft_fsplit(str[j], '=');
+		if (!tmp)
+			tmp = ft_strdup(str[j]);
+		if (ft_strstr(tmp, g_shell.all[g_shell.p][i]))
+		{
+			printf("Girdi\n");
+			*ptr = get_it_out(str, j, l);
+			free(tmp);
+			break ;
+		}
+		free(tmp);
+		j++;
+	}
+}
+
 void	my_unset(void)
 {
-	int		i;
-	int		j;
-	int		l;
-	char	*tmp;
+	int	env_len;
+	int	dec_len;
+	int	i;
 
 	if (!g_shell.env || !operator_chc())
 		return ;
 	i = 1;
 	while (i < g_shell.in_pipe[g_shell.p])
 	{
-		l = 0;
+		env_len = 0;
+		dec_len = 0;
 		if (!g_shell.env)
 			break ;
-		while (g_shell.env && g_shell.env[l])
-			l++;
-		j = 0;
-		while (g_shell.env && g_shell.env[j])
-		{
-			tmp = ft_fsplit(g_shell.env[j], '=');
-			if (ft_strstr(tmp, g_shell.all[g_shell.p][i]))
-			{
-				g_shell.env = get_it_out(g_shell.env, j, l);
-				break ;
-			}
-			free(tmp);
-			j++;
-		}
+		while (g_shell.env && g_shell.env[env_len])
+			env_len++;
+		while (g_shell.declares && g_shell.declares[dec_len])
+			dec_len++;
+		remove_env_dec(&g_shell.env, i, env_len);
+		remove_env_dec(&g_shell.declares, i, dec_len);
 		i++;
 	}
 	g_shell.exit_status = 0;

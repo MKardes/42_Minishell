@@ -58,6 +58,15 @@ char	*dir_sign(char *str, char c)
 	return (NULL);
 }
 
+void	cd_error(char *dest, char *old)
+{
+	write(1, "cd: ", 4);
+	perror("");
+	free(old);
+	free(dest);
+	g_shell.exit_status = 1;
+}
+
 void	cd(void)
 {
 	char	*dest;
@@ -76,11 +85,7 @@ void	cd(void)
 	old = getcwd(NULL, 1024);
 	if (chdir(dest) == -1)
 	{
-		write(1, "cd: ", 4);
-		perror("");
-		free(old);
-		free(dest);
-		g_shell.exit_status = 1;
+		cd_error(dest, old);
 		return ;
 	}
 	else

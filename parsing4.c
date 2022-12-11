@@ -18,11 +18,11 @@ char	*cut_var(char *str)
 	char	*res;
 
 	i = 0;
-	while (str[i] != '$' && str[i] != ' ' && str[i])
+	while (str[i] != '$' && str[i] != 96 && str[i] != ' ' && str[i])
 		i++;
 	res = malloc(i + 1);
 	i = 0;
-	while (str[i] != '$' && str[i] != ' ' && str[i])
+	while (str[i] != '$' && str[i] != 96 && str[i] != ' ' && str[i])
 	{
 		res[i] = str[i];
 		i++;
